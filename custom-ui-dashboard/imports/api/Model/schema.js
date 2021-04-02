@@ -1,9 +1,9 @@
 import SimpleSchema from 'simpl-schema';
 
-const temperatures = new Mongo.Collection();
-
-temperatures.schema = new SimpleSchema({
-    roomId: {type: Number},
-    timestamp: {type: Date},
-    temperature: { type: Number}
+export const schema = new SimpleSchema({
+    roomId: SimpleSchema.Integer,
+    timestamp: Date,
+    temperature: Number
 });
+
+
