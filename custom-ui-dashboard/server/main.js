@@ -1,26 +1,51 @@
 import { Meteor } from 'meteor/meteor';
 import temperature_data from '../imports/api/collections/TemperatureModel.js';
-import Papa from 'papaparse'
+import Papa from 'papaparse';
 import fs from 'fs';
+import { check } from 'meteor/check';
+import SimpleSchema from 'simpl-schema';
+
+
 
 function populateDB() {
     const csv = Assets.absoluteFilePath('room-temperatures.csv');
     Papa.parse(fs.createReadStream(csv), {
     header: true,
     complete: Meteor.bindEnvironment(results =>
-      temperature_data.batchInsert(
-        results.data.map(temperature_row => ({
-          RoomId: Number(temperature_row.RoomId),
-          timestamp: new Date(temperature_row.timestamp),
-          temperature: Number(temperature_row.temperature)
-        }))
-      )
+        {
+            //Method 1: Assumes all static data in csv is of valid format. Uses external library batchInsert
+            /*
+            temperature_data.batchInsert(
+                results.data.map(temperature_row => ({
+                  RoomId: Number(temperature_row.RoomId),
+                  timestamp: new Date(temperature_row.timestamp),
+                  temperature: Number(temperature_row.temperature)
+                }))
+            )
+            */
+
+            //Method 2: Insert to collection row by row check for invalid date
+            const data = results.data;
+            const data_keys = Object.keys(data);
+
+            for(let i =0; i < data_keys.length; i++) {
+                const row = data[data_keys[i]];
+                const row_keys = Object.keys(row);
+                // This line catches badDate error so the data in the csv will be fully loaded
+                if(isNaN(Date.parse(row[row_keys[1]]))) continue;
+                temperature_data.insert({
+                    roomId: Number(row[row_keys[0]]),
+                    timestamp: new Date(row[row_keys[1]]),
+                    temperature: Number(row[row_keys[2]])
+                });
+            }
+        }
     )
   });
 }
 
 Meteor.startup(() => {
-    if (temperature_data.find().count() == 0) {
+    if (temperature_data.find().count() === 0) {
         populateDB();
         temperature_data.rawCollection().createIndex({
             RoomId: 1,

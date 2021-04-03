@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-import { check } from 'meteor/check'
+import { check } from 'meteor/check';
 import { ReactiveAggregate } from 'meteor/tunguska:reactive-aggregate';
 import { totalTimeRange } from '../Model/constant';
 import {schema} from '../Model/schema';
