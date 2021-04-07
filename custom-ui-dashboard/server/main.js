@@ -34,7 +34,7 @@ function populateDB() {
                 // This line catches badDate error so the data in the csv will be fully loaded
                 if(isNaN(Date.parse(row[row_keys[1]]))) continue;
                 temperature_data.insert({
-                    roomId: Number(row[row_keys[0]]),
+                    roomId: SimpleSchema.Integer(row[row_keys[0]]),
                     timestamp: new Date(row[row_keys[1]]),
                     temperature: Number(row[row_keys[2]])
                 });
