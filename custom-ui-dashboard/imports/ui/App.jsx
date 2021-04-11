@@ -40,7 +40,7 @@ export class App extends React.Component {
             <div>
                 <h1>Hello</h1>
                 <div className="container">
-                <GraphControlPanel />
+                <GraphControlPanel minRange={this.state.range[0]} maxRange={this.state.range[1]} currentRange={this.state.range[1]}/>
                 </div>
 
             </div>

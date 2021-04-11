@@ -7,11 +7,10 @@ import DateRangePicker from "react-bootstrap-daterangepicker";
 class DateTimeRangeController extends React.Component {
   constructor(props) {
     super(props);
-    let start = moment(new Date('2013-10-02T05:00:00'));
-    let end = moment(new Date('2013-12-03T15:30:00'));
+
     this.state = {
-      start: start,
-      end: end,
+      start: this.props.start,
+      end: this.props.end,
       timezone: "Singapore Standard Time"
     };
 
@@ -49,46 +48,22 @@ class DateTimeRangeController extends React.Component {
       <div>
         <div onClick={this.onClick}>Click Me to test the smart mode picker</div>
         <div>
-          Select Range: {" "}
+            Select Range: {" "}
 
-        {/*<DateTimeRangeContainer*/}
-        {/*  ranges={range}*/}
-        {/*  start={this.state.start}*/}
-        {/*  end={this.state.end}*/}
-        {/*  local={local}*/}
-        {/*  minDate={new Date("2013-10-02T05:00:00")}*/}
-        {/*  maxDate={maxDate}*/}
-        {/*  style= {style}*/}
-        {/*  applyCallback={this.applyCallback}*/}
-        {/*  rangeCallback={this.rangeCallback}*/}
-        {/*  smartMode*/}
-        {/*>*/}
-        {/*  <FormControl*/}
-        {/*    id="formControlsText"*/}
-        {/*    type="text"*/}
-        {/*    label="Text"*/}
-        {/*    placeholder="Enter text"*/}
-        {/*    style={{cursor: "pointer" }}*/}
-        {/*    disabled={disabled}*/}
-        {/*    value={value}*/}
-        {/*  />*/}
-        {/*</DateTimeRangeContainer>*/}
-        <DateRangePicker
-            initialSettings={{
-                timePicker: true,
-                startDate: new Date('2013-10-02T05:00:00'),
-                endDate: new Date('2013-12-03T15:30:00'),
-                maxDate: new Date('2013-12-03T15:30:00'),
-                minDate: new Date('2013-10-02T05:00:00'),
-                locale: {
-                    format: 'DD/MM/YYYY hh:mm:ss',
-                },
-            }}
-        >
-            <input type="text" className="form-control col-4"/>
-        </DateRangePicker>
-
-        <br />
+            <DateRangePicker
+                initialSettings={{
+                    timePicker: true,
+                    startDate: new Date('2013-10-02T05:00:00'),
+                    endDate: new Date('2013-12-03T15:30:00'),
+                    maxDate: new Date('2013-12-03T15:30:00'),
+                    minDate: new Date('2013-10-02T05:00:00'),
+                    locale: {
+                        format: 'DD/MM/YYYY hh:mm:ss',
+                    },
+                }}
+            >
+                <input type="text" className="form-control col-4"/>
+            </DateRangePicker>
         </div>
       </div>
     );
