@@ -17,7 +17,7 @@ class SampleRateRangeController extends React.Component {
                        onChange={this.props.onChangeValue}
                 />
                 <label>{this.props.maxRange}</label>
-                <label>{" "} Samples {" "}</label>
+                <label> Samples </label>
             </div>
         )
     }

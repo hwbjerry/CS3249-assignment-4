@@ -7,6 +7,7 @@ import DateRangePicker from 'react-bootstrap-daterangepicker';
 import 'bootstrap/dist/css/bootstrap.css';
 // you will also need the css that comes with bootstrap-daterangepicker
 import 'bootstrap-daterangepicker/daterangepicker.css';
+import moment from "moment-timezone";
 
 export class App extends React.Component {
     constructor(props) {
@@ -40,7 +41,8 @@ export class App extends React.Component {
             <div>
                 <h1>Hello</h1>
                 <div className="container">
-                <GraphControlPanel minRange={this.state.range[0]} maxRange={this.state.range[1]} currentRange={this.state.range[1]}/>
+                <GraphControlPanel minRange={this.state.range[0]} maxRange={this.state.range[1]} currentRange={this.state.range[1]}
+                startDateTime={moment(new Date('2013-10-02T05:00:00'))} endDateTime={moment(new Date('2013-12-03T15:30:00'))}/>
                 </div>
 
             </div>
