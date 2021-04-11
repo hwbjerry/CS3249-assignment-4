@@ -1,7 +1,12 @@
 import React from 'react';
 import {maxDatapointInTimeRange, timeRange, totalTimeRange} from '../api/Model/constant';
 import GraphControlPanel from "./GraphControlPanel";
-
+import DateRangePicker from 'react-bootstrap-daterangepicker';
+// you will need the css that comes with bootstrap@3. if you are using
+// a tool like webpack, you can do the following:
+import 'bootstrap/dist/css/bootstrap.css';
+// you will also need the css that comes with bootstrap-daterangepicker
+import 'bootstrap-daterangepicker/daterangepicker.css';
 
 export class App extends React.Component {
     constructor(props) {
@@ -37,6 +42,7 @@ export class App extends React.Component {
                 <div className="container">
                 <GraphControlPanel />
                 </div>
+
             </div>
         )
     }

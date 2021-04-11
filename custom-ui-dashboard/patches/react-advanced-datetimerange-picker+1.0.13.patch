@@ -1,0 +1,50 @@
+diff --git a/node_modules/react-advanced-datetimerange-picker/dist/DateTimeRangePicker.js b/node_modules/react-advanced-datetimerange-picker/dist/DateTimeRangePicker.js
+index 6068b78..95f6045 100644
+--- a/node_modules/react-advanced-datetimerange-picker/dist/DateTimeRangePicker.js
++++ b/node_modules/react-advanced-datetimerange-picker/dist/DateTimeRangePicker.js
+@@ -154,6 +154,10 @@ function (_React$Component) {
+         if ((0, _DateSelectedUtils.pastMaxDate)(start, this.props.maxDate, true) || (0, _DateSelectedUtils.pastMaxDate)(end, this.props.maxDate, true)) {
+           return false;
+         }
++
++        if ((0, _DateSelectedUtils.pastMaxDate)(this.props.minDate, start, true) || (0, _DateSelectedUtils.pastMaxDate)(this.props.minDate, end, true)) {
++          return false;
++        }
+       } // Else update state to new selected index and update start and end time
+ 
+ 
+@@ -396,6 +400,10 @@ function (_React$Component) {
+         return false;
+       } // Else if date valid and date change valid update the date,
+ 
++      if ((0, _DateSelectedUtils.pastMaxDate)(this.props.minDate, newDate, true)) {
++        this.updateStartEndAndLabels(this.state.start, this.state.end);
++        return false;
++      }
+ 
+       if (isValidNewDate && isValidDateChange) {
+         var _this$setState2;
+@@ -551,6 +559,7 @@ function (_React$Component) {
+         selectingModeFrom: this.state.selectingModeFrom,
+         changeSelectingModeCallback: this.changeSelectingModeCallback,
+         applyCallback: this.applyCallback,
++        minDate: this.props.minDate,
+         maxDate: this.props.maxDate,
+         local: this.props.local,
+         descendingYears: this.props.descendingYears,
+@@ -585,6 +594,7 @@ function (_React$Component) {
+         selectingModeFrom: this.state.selectingModeFrom,
+         changeSelectingModeCallback: this.changeSelectingModeCallback,
+         applyCallback: this.applyCallback,
++        minDate: this.props.minDate,
+         maxDate: this.props.maxDate,
+         local: this.props.local,
+         descendingYears: this.props.descendingYears,
+@@ -626,6 +636,7 @@ DateTimeRangePicker.propTypes = {
+   applyCallback: _propTypes.default.func.isRequired,
+   rangeCallback: _propTypes.default.func,
+   autoApply: _propTypes.default.bool,
++  minDate: _reactMomentProptypes.default.momentObj,
+   maxDate: _reactMomentProptypes.default.momentObj,
+   descendingYears: _propTypes.default.bool,
+   years: _propTypes.default.array,
