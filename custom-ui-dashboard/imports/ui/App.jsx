@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-daterangepicker/daterangepicker.css';
 import { debounce } from 'underscore';
 import {TimeRange} from "pondjs";
+import FloorPlan from './FloorPlan'
 
 
 export class App extends React.Component {
@@ -21,11 +22,12 @@ export class App extends React.Component {
          */
         this.state = {
             visible: [true, true, true, true, true, true, true],
+            avgs: [0, 0, 0, 0, 0, 0, 0],
             date: [timeRange[0], timeRange[1]],
-            duration: new ReactiveVar(new TimeRange(totalTimeRange.begin(), totalTimeRange.end())),
+            duration: new TimeRange(totalTimeRange.begin(), totalTimeRange.end()),
             range: [sampleRange[0], sampleRange[1]],
-            sampleRate: new ReactiveVar(sampleRange[1]),
-            sampleRateMax: new ReactiveVar(sampleRange[1])
+            sampleRate: sampleRange[1],
+            sampleRateMax: sampleRange[1]
         };
 
         // this.updateSampleRate = debounce(this.updateSampleRate, 100).bind(this);
@@ -35,32 +37,40 @@ export class App extends React.Component {
 
     }
 
+    //FloorPlan Panel Functions
+    toggleRooms(e) {
+        // visibility of the various rooms so slice
+       const visible = this.state.visible.slice();
+       visible[e] = !this.state.visible[e];
+       this.setState({
+           visible: visible,
+       });
+    }
+
+    //Colour of the room depends on the
+    getRoomColour() {
+        let values = new Array();
+        const avgs = this.state.avgs.slice();
+        for (var i = 0; i < avgs.length; i ++) {
+            values[i] = "hsla(" + 220 + ",100%,70%,"+ 0.3 + ")";
+        }
+        return values;
+    }
+
+    //Control Panel Functions
     updateDuration(newDuration) {
         const { duration } = this.state;
-        if (newDuration !== duration) {
-          this.state.duration.set(newDuration);
-        }
+        if (newDuration !== duration) {this.state.duration.set(newDuration);}
     }
 
     updateSampleRate(newSampleRate) {
-        const {sampleRate} = this.state;
-        console.log(newSampleRate);
-
-        // if (newSampleRate !== sampleRate) {
-        //     console.log("new sr?");
-
-            this.state.sampleRate.set(newSampleRate);
-            console.log('sampleRate.get(): ' + this.state.sampleRate.get());
-        //     console.log("My new value: " + this.state.sampleRate.get());
-        // }
+        const { sampleRate } = this.state;
+        if(newSampleRate !== sampleRate)this.setState({sampleRate: newSampleRate});
     }
 
     updateSampleRateMax(newSampleRateMax) {
-        const {sampleRateMax} = this.state;
-        console.log(newSampleRateMax);
-        if (newSampleRateMax !== sampleRateMax) {
-            this.state.sampleRateMax.set(newSampleRateMax);
-        }
+        const { sampleRateMax } = this.state;
+        if(newSampleRateMax !== sampleRateMax) this.setState({sampleRateMax: newSampleRateMax});
     }
 
     render() {
@@ -68,15 +78,23 @@ export class App extends React.Component {
         // console.log(duration.get());
         // console.log(totalTimeRange.duration());
         // console.log(sampleRate.get());
-        const totalSamples = Math.round(totalTimeRange.duration() / duration.get() * sampleRate.get());
+        // const totalSamples = Math.round(totalTimeRange.duration() / duration.get() * sampleRate.get());
         return (
             <div>
                 <h1>Hello</h1>
                 <div className="container">
-                <GraphControlPanel sampleRateMin={this.state.range[0]} sampleRateMax={sampleRateMax.get()}
-                                   sampleRate={sampleRate.get()} duration={duration.get()}
+                <GraphControlPanel sampleRateMin={this.state.range[0]} sampleRateMax={sampleRateMax}
+                                   sampleRate={sampleRate} duration={duration}
                                    durationHandler={this.updateDuration} sampleRateHandler={this.updateSampleRate} sampleRateMaxHandler={this.updateSampleRateMax}
                 />
+                </div>
+
+                <div className={"main_floorplan"}>
+                    <FloorPlan
+                        visible={this.state.visible}
+                        rooms={this.getRoomColour()}
+                        onClick={(i) => this.toggleRooms(i)}
+                    />
                 </div>
 
             </div>

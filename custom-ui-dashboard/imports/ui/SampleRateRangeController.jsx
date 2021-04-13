@@ -19,9 +19,7 @@ class SampleRateRangeController extends React.Component {
     //When change happens on slider. Need to show responsiveness.
 
       sampleRateUpdate(rate) {
-        this.setState({
-          sampleRate: parseInt(rate, 10)
-        });
+        this.setState({sampleRate: parseInt(rate, 10)});
       }
 
     //Only when mouse up so won't constantly be logged when user drags slider
@@ -36,17 +34,19 @@ class SampleRateRangeController extends React.Component {
     render() {
         return (
             <div>
+                <span><b>Sample Range: </b></span>
                 <span>{this.props.sampleRateMin}</span>
                 <input type="range"
                        step="1"
                        min= {this.props.sampleRateMin}
-                       max={this.state.sampleRateMax}
-                       value={this.state.sampleRate}
+                       max={this.props.sampleRateMax}
+                       value={this.props.sampleRate}
                        onChange={e => this.sampleRateUpdate(e.target.value)}
                        onMouseUp={() => this.sampleRateMouseUpHandler()}
                 />
-                <span>{this.state.sampleRateMax} Samples </span>
-                <span>Current samples: {this.state.sampleRate}</span>
+                <span>{this.props.sampleRateMax}</span>
+                <br></br>
+                <span><b>Current samples: </b> {this.props.sampleRate}</span>
             </div>
         )
     }

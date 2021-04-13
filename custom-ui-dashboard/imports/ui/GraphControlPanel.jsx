@@ -11,12 +11,6 @@ class GraphControlPanel extends React.Component {
     constructor(props) {
         super(props);
 
-        // this.state= {
-        //     sampleRateMin: this.props.sampleRateMin,
-        //     sampleRateMax: this.props.sampleRateMax,
-        //     sampleRate: this.props.sampleRate,
-        //     duration: this.props.duration
-        // };
         this.updateDateTimeRange = this.updateDateTimeRange.bind(this);
         this.updateSampleRate = this.updateSampleRate.bind(this);
         this.updateSampleRateMax = this.updateSampleRateMax.bind(this);
@@ -24,26 +18,19 @@ class GraphControlPanel extends React.Component {
 
     updateDateTimeRange(dateTimeRange) {
         const { durationHandler } = this.props;
-        // this.setState({ dateTimeRange });
         durationHandler(dateTimeRange.duration());
-        console.log("dt ok");
         this.updateMaxSamplePoints();
 
     }
 
     updateSampleRate(sampleRate) {
         const { sampleRateHandler } = this.props;
-        // this.setState({ sampleRate });
         sampleRateHandler(sampleRate);
-        console.log("sr ok");
     }
 
     updateSampleRateMax(sampleRateMax) {
         const { sampleRateMaxHandler } = this.props;
-        // this.setState({ sampleRateMax });
         sampleRateMaxHandler(sampleRateMax);
-        console.log("srm ok");
-
     }
 
 
@@ -60,10 +47,15 @@ class GraphControlPanel extends React.Component {
         }
     }
 
+    //TODO: remove later used for testing
+    handleClick = () => {
+        console.log('Click happened');
+        console.log(this.props.sampleRate);
+    }
+
     render() {
           return (
             <div>
-                {this.props.sampleRate}
                 <div className="container">
                     <DateTimeRangeController
                         dateTimeRange={this.props.duration}
@@ -78,6 +70,10 @@ class GraphControlPanel extends React.Component {
                         sampleRateHandler={this.updateSampleRate}
                     />
                 </div>
+                {/*TODO: remove later used for testing*/}
+                {/*{this.props.sampleRateMax}*/}
+                {/*<button onMouseUp={this.handleClick}>test</button>*/}
+                {/*{this.props.sampleRate}*/}
             </div>
         )
     }
