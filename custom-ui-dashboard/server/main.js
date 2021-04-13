@@ -2,12 +2,8 @@ import { Meteor } from 'meteor/meteor';
 import temperature_data from '../imports/api/collections/TemperatureModel.js';
 import Papa from 'papaparse';
 import fs from 'fs';
-import { check } from 'meteor/check';
-import SimpleSchema from 'simpl-schema';
 
-
-
-function populateDB() {
+function populateCSVData() {
     const csv = Assets.absoluteFilePath('room-temperatures.csv');
     Papa.parse(fs.createReadStream(csv), {
     header: true,
@@ -34,7 +30,7 @@ function populateDB() {
                 // This line catches badDate error so the data in the csv will be fully loaded
                 if(isNaN(Date.parse(row[row_keys[1]]))) continue;
                 temperature_data.insert({
-                    roomId: SimpleSchema.Integer(row[row_keys[0]]),
+                    roomId: Number(row[row_keys[0]]),
                     timestamp: new Date(row[row_keys[1]]),
                     temperature: Number(row[row_keys[2]])
                 });
@@ -46,10 +42,10 @@ function populateDB() {
 
 Meteor.startup(() => {
     if (temperature_data.find().count() === 0) {
-        populateDB();
+        populateCSVData();
         temperature_data.rawCollection().createIndex({
-            RoomId: 1,
-            timestamp: 1
+            RoomId: -1,
+            timestamp: -1
         });
     }
 });

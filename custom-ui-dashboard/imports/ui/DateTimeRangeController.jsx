@@ -1,29 +1,33 @@
 import React from "react";
 import DateRangePicker from "react-bootstrap-daterangepicker";
+import * as PropTypes from "prop-types";
+import { TimeRange } from 'pondjs';
+import {totalTimeRange} from "../api/Model/constant";
+
 
 class DateTimeRangeController extends React.Component {
   constructor(props) {
     super(props);
 
-    // this.handleEvent = this.handleEvent.bind(this);
+    this.dateTimeRangeHandler = this.dateTimeRangeHandler.bind(this);
   }
 
     /**
      * Child element unable to pass values back to parent only way is to utilise function and input callback foreach parameter
      * https://www.pluralsight.com/guides/how-to-pass-props-object-from-child-component-to-parent-component
-     * @param start
-     * @param end
-     * @param label
+     * Alternatively, create custom class prototype. And bind callback
      */
+    dateTimeRangeHandler(start, end) {
+        const {dateTimeRangeHandler} =this.props;
+        if (start && end) {
+          dateTimeRangeHandler(new TimeRange(start, end));
+        }
+    }
 
-  handleEvent = (start, end, label) => {
-    var startInput = document.querySelector('#startDateTime');
-    var endInput = document.querySelector('#endDateTime');
-    startInput.setAttribute("value", start.toDate().toString());
-    endInput.setAttribute("value", end.toDate().toString());
-    // console.log(startInput);
-    startInput.click();
-    endInput.click();
+
+
+  handleCallBack = (start, end, label) => {
+    this.dateTimeRangeHandler(start, end);
   }
 
   renderVanillaPicker() {
@@ -35,20 +39,18 @@ class DateTimeRangeController extends React.Component {
             <DateRangePicker
                 initialSettings={{
                     timePicker: true,
-                    startDate: this.props.startDateTime,
-                    endDate: this.props.endDateTime,
-                    minDate: this.props.startDateTime,
-                    maxDate: this.props.endDateTime,
+                    startDate: this.props.dateTimeRange.begin(),
+                    endDate: this.props.dateTimeRange.end(),
+                    minDate: totalTimeRange.begin(),
+                    maxDate: totalTimeRange.end(),
                     locale: {
-                        format: 'DD/MM/YYYY hh:mm:ss A',
+                        format: 'DD/MM/YYYY hh:mm A',
                     },
                 }}
-                onCallback={this.handleEvent}
+                onCallback={this.handleCallBack}
             >
-                <input type="text" className="form-control col-4"/>
+                <input type="text" className="form-control col-5"/>
             </DateRangePicker>
-            <input hidden={true} id='startDateTime' type="text" className="form-control col-4" onClick={this.props.onStartDateChangeValue}/>
-            <input hidden={true} id='endDateTime' type="text" className="form-control col-4" onClick={this.props.onEndDateChangeValue}/>
         </div>
       </div>
     );
@@ -69,4 +71,10 @@ class DateTimeRangeController extends React.Component {
     );
   }
 }
+
+DateTimeRangeController.propTypes = {
+    dateTimeRange: PropTypes.instanceOf(TimeRange).isRequired,
+    dateTimeRangeHandler: PropTypes.func.isRequired
+};
+
 export default DateTimeRangeController;

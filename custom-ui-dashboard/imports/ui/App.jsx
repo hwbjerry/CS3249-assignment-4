@@ -1,13 +1,11 @@
 import React from 'react';
-import {maxDatapointInTimeRange, timeRange, totalTimeRange} from '../api/Model/constant';
+import {sampleRange, timeRange, totalTimeRange} from '../api/Model/constant';
 import GraphControlPanel from "./GraphControlPanel";
-import DateRangePicker from 'react-bootstrap-daterangepicker';
-// you will need the css that comes with bootstrap@3. if you are using
-// a tool like webpack, you can do the following:
 import 'bootstrap/dist/css/bootstrap.css';
-// you will also need the css that comes with bootstrap-daterangepicker
 import 'bootstrap-daterangepicker/daterangepicker.css';
-import moment from "moment-timezone";
+import { debounce } from 'underscore';
+import {TimeRange} from "pondjs";
+
 
 export class App extends React.Component {
     constructor(props) {
@@ -24,25 +22,61 @@ export class App extends React.Component {
         this.state = {
             visible: [true, true, true, true, true, true, true],
             date: [timeRange[0], timeRange[1]],
-            duration: new ReactiveVar(totalTimeRange.duration()),
-            range: [2, maxDatapointInTimeRange],
-            sampleRate: new ReactiveVar(maxDatapointInTimeRange)
+            duration: new ReactiveVar(new TimeRange(totalTimeRange.begin(), totalTimeRange.end())),
+            range: [sampleRange[0], sampleRange[1]],
+            sampleRate: new ReactiveVar(sampleRange[1]),
+            sampleRateMax: new ReactiveVar(sampleRange[1])
         };
+
+        // this.updateSampleRate = debounce(this.updateSampleRate, 100).bind(this);
+        this.updateDuration = debounce(this.updateDuration, 500).bind(this);
+        this.updateSampleRate = debounce(this.updateSampleRate, 500).bind(this);
+        this.updateSampleRateMax = debounce(this.updateSampleRateMax, 500).bind(this);
+
+    }
+
+    updateDuration(newDuration) {
+        const { duration } = this.state;
+        if (newDuration !== duration) {
+          this.state.duration.set(newDuration);
+        }
+    }
+
+    updateSampleRate(newSampleRate) {
+        const {sampleRate} = this.state;
+        console.log(newSampleRate);
+
+        // if (newSampleRate !== sampleRate) {
+        //     console.log("new sr?");
+
+            this.state.sampleRate.set(newSampleRate);
+            console.log('sampleRate.get(): ' + this.state.sampleRate.get());
+        //     console.log("My new value: " + this.state.sampleRate.get());
+        // }
+    }
+
+    updateSampleRateMax(newSampleRateMax) {
+        const {sampleRateMax} = this.state;
+        console.log(newSampleRateMax);
+        if (newSampleRateMax !== sampleRateMax) {
+            this.state.sampleRateMax.set(newSampleRateMax);
+        }
     }
 
     render() {
-        const sampleRate = this.state.sampleRate;
-        const duration = this.state.duration;
-        console.log(duration.get());
-        console.log(totalTimeRange.duration());
-        console.log(sampleRate.get());
+        const {sampleRate, duration, sampleRateMax} = this.state;
+        // console.log(duration.get());
+        // console.log(totalTimeRange.duration());
+        // console.log(sampleRate.get());
         const totalSamples = Math.round(totalTimeRange.duration() / duration.get() * sampleRate.get());
         return (
             <div>
                 <h1>Hello</h1>
                 <div className="container">
-                <GraphControlPanel minRange={this.state.range[0]} maxRange={this.state.range[1]} currentRange={this.state.range[1]}
-                startDateTime={moment(new Date('2013-10-02T05:00:00'))} endDateTime={moment(new Date('2013-12-03T15:30:00'))}/>
+                <GraphControlPanel sampleRateMin={this.state.range[0]} sampleRateMax={sampleRateMax.get()}
+                                   sampleRate={sampleRate.get()} duration={duration.get()}
+                                   durationHandler={this.updateDuration} sampleRateHandler={this.updateSampleRate} sampleRateMaxHandler={this.updateSampleRateMax}
+                />
                 </div>
 
             </div>

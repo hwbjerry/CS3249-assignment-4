@@ -7,4 +7,4 @@ export const rooms = Object.freeze([0, 1, 2, 3, 4, 5, 6]);
 
 export const timeRange = Object.freeze([new Date('2013-10-02T05:00:00'), new Date('2013-12-03T15:30:00')]);
 
-export const maxDatapointInTimeRange = 5994;
+export const sampleRange = Object.freeze([2,5994]);

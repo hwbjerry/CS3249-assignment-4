@@ -2,76 +2,98 @@ import React from 'react';
 import DateTimeRangeController from "./DateTimeRangeController";
 import moment from "moment-timezone";
 import SampleRateRangeController from "./SampleRateRangeController";
+import { TimeRange } from 'pondjs';
+import { totalTimeRange } from '../api/Model/constant';
+import * as PropTypes from "prop-types";
 
 
 class GraphControlPanel extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state= {
-            minRange: this.props.minRange,
-            maxRange: this.props.maxRange,
-            currentRange: this.props.currentRange,
-            startDateTime: this.props.startDateTime,
-            endDateTime: this.props.endDateTime
-        };
+        // this.state= {
+        //     sampleRateMin: this.props.sampleRateMin,
+        //     sampleRateMax: this.props.sampleRateMax,
+        //     sampleRate: this.props.sampleRate,
+        //     duration: this.props.duration
+        // };
+        this.updateDateTimeRange = this.updateDateTimeRange.bind(this);
+        this.updateSampleRate = this.updateSampleRate.bind(this);
+        this.updateSampleRateMax = this.updateSampleRateMax.bind(this);
     }
 
-    handleCurrentChange = (event) =>  {
-        // console.log(event.target.value);
-        this.setState({currentRange: event.target.value});
-        // this.service.send(this.state.mode);
-    }
-
-    handleStartDateTimeChange = (event) =>  {
-        this.setState({startDateTime: moment(new Date(event.target.value))});
-        console.log(this.state.startDateTime);
-        console.log('updated start');
-    }
-
-    handleEndDateTimeChange = (event) =>  {
-        this.setState({endDateTime: moment(new Date(event.target.value))});
-        console.log(this.state.endDateTime);
-        console.log('updated end');
+    updateDateTimeRange(dateTimeRange) {
+        const { durationHandler } = this.props;
+        // this.setState({ dateTimeRange });
+        durationHandler(dateTimeRange.duration());
+        console.log("dt ok");
         this.updateMaxSamplePoints();
+
     }
+
+    updateSampleRate(sampleRate) {
+        const { sampleRateHandler } = this.props;
+        // this.setState({ sampleRate });
+        sampleRateHandler(sampleRate);
+        console.log("sr ok");
+    }
+
+    updateSampleRateMax(sampleRateMax) {
+        const { sampleRateMaxHandler } = this.props;
+        // this.setState({ sampleRateMax });
+        sampleRateMaxHandler(sampleRateMax);
+        console.log("srm ok");
+
+    }
+
 
     updateMaxSamplePoints = () => {
         //select from bucket generated based on room selected
         // for now make max 2555
-        var x = 2555;
-        this.setState({maxRange: x});
-        console.log(this.state.maxRange);
-        console.log(this.state.currentRange);
-        if (x < this.state.currentRange) {
-            this.setState({currentRange: x});
+        const x = 2555;
+        this.updateSampleRateMax(x);
+        // console.log(this.state.maxRange);
+        // console.log(this.state.currentRange);
+
+        if (x < this.props.sampleRate) {
+            this.updateSampleRate(x);
         }
     }
 
     render() {
-
           return (
             <div>
+                {this.props.sampleRate}
                 <div className="container">
                     <DateTimeRangeController
-                        startDateTime={this.state.startDateTime}
-                        endDateTime={this.state.endDateTime}
-                        onStartDateChangeValue={this.handleStartDateTimeChange}
-                        onEndDateChangeValue={this.handleEndDateTimeChange}
+                        dateTimeRange={this.props.duration}
+                        dateTimeRangeHandler={this.updateDateTimeRange}
                     />
                 </div>
                 <div>
                     <SampleRateRangeController
-                        id={SampleRateRangeController}
-                        minRange={this.state.minRange}
-                        maxRange={this.state.maxRange}
-                        currentRange={this.state.currentRange}
-                        onChangeValue={this.handleCurrentChange}
+                        sampleRateMin={this.props.sampleRateMin}
+                        sampleRateMax={this.props.sampleRateMax}
+                        sampleRate={this.props.sampleRate}
+                        sampleRateHandler={this.updateSampleRate}
                     />
                 </div>
             </div>
         )
     }
+}
+
+GraphControlPanel.propTypes = {
+    //Data
+    sampleRateMin: PropTypes.number.isRequired,
+    sampleRateMax: PropTypes.number.isRequired,
+    sampleRate: PropTypes.number.isRequired,
+    duration: PropTypes.instanceOf(TimeRange).isRequired,
+
+    //Handlers for active data
+    sampleRateHandler: PropTypes.func.isRequired,
+    sampleRateMaxHandler: PropTypes.func.isRequired,
+    durationHandler: PropTypes.func.isRequired
 }
 
 export default GraphControlPanel;

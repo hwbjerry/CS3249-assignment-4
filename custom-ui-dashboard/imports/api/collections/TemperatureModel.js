@@ -16,6 +16,10 @@ if (Meteor.isServer) {
         check(sampleRate, Number);
 
         const totalSamples = Math.round(totalTimeRange.duration() / duration * sampleRate);
+        /**
+         * Ref: https://docs.mongodb.com/manual/reference/method/db.collection.aggregate/
+         * Ref: https://docs.mongodb.com/manual/reference/operator/aggregation/bucketAuto/
+         */
 
         const pipeline = [
         {
@@ -29,6 +33,29 @@ if (Meteor.isServer) {
           }
         }
         }
+        ];
+
+        const test_single_datetime_pipeline = [
+          {
+            '$group': {
+              '_id': {
+                'timestamp': '$timestamp'
+              },
+              'points': {
+                '$push': {
+                  'timestamp': '$_id.timestamp',
+                  'temperature': '$temperature'
+                }
+              }
+            }
+          }, {
+            '$match': {
+              '_id.timestamp': {
+                '$gte': new Date('Wed, 02 Oct 2013 05:00:00 GMT'),
+                '$lt': new Date('Wed, 02 Oct 2013 05:30:00 GMT')
+              }
+            }
+          }
         ];
         ReactiveAggregate(this, temperature_data, pipeline);
     });
