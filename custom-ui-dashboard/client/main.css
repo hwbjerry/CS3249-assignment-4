@@ -6,3 +6,8 @@ body {
 .main_floorplan{
   display: inline-block;
 }
+
+.chartContainer{
+  height: 300px;
+  width: 750%;
+}

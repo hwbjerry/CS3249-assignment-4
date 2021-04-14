@@ -19,7 +19,7 @@ class SampleRateRangeController extends React.Component {
     //When change happens on slider. Need to show responsiveness.
 
       sampleRateUpdate(rate) {
-        this.setState({sampleRate: parseInt(rate, 10)});
+        this.setState({sampleRate: parseInt(rate)});
       }
 
     //Only when mouse up so won't constantly be logged when user drags slider

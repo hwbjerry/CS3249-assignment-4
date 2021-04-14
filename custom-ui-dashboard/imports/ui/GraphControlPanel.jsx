@@ -3,16 +3,13 @@ import DateTimeRangeController from "./DateTimeRangeController";
 import moment from "moment-timezone";
 import SampleRateRangeController from "./SampleRateRangeController";
 import { TimeRange } from 'pondjs';
-import { totalTimeRange } from '../api/Model/constant';
+import {sampleRange, totalTimeRange} from '../api/Model/constant';
 import * as PropTypes from "prop-types";
 
 
 class GraphControlPanel extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-           dateTimeRange: new TimeRange(totalTimeRange.begin(), totalTimeRange.end())
-        }
 
 
         this.updateDateTimeRange = this.updateDateTimeRange.bind(this);
@@ -26,9 +23,9 @@ class GraphControlPanel extends React.Component {
         // const { dateTimeRangeHandler } = this.props;
         // console.log(dateTimeRange);
         // dateTimeRangeHandler(dateTimeRange);
-        this.setState({dateTimeRange});
+        const { dateTimeRangeHandler } = this.props;
+        dateTimeRangeHandler(dateTimeRange);
         this.updateMaxSamplePoints();
-
     }
 
     updateSampleRate(sampleRate) {
@@ -45,7 +42,10 @@ class GraphControlPanel extends React.Component {
     updateMaxSamplePoints = () => {
         //select from bucket generated based on room selected
         // for now make max 2555
-        const x = 2555;
+        const { dateTimeRange } = this.props;
+        // const x = 2555; // use total.duration()
+        const y = (Math.round( dateTimeRange.duration() / totalTimeRange.duration() * sampleRange[1]));
+        const x = (y < 0) ? 2 : Math.round( dateTimeRange.duration()/totalTimeRange.duration() * sampleRange[1]);
         this.updateSampleRateMax(x);
         // console.log(this.state.maxRange);
         // console.log(this.state.currentRange);
@@ -63,7 +63,7 @@ class GraphControlPanel extends React.Component {
 
     render() {
             const { sampleRateMin, sampleRateMax, sampleRate} = this.props;
-            const {dateTimeRange} = this.state;
+            const {dateTimeRange} = this.props;
           return (
             <div>
                 <div className="container">
@@ -95,13 +95,13 @@ GraphControlPanel.propTypes = {
     sampleRateMax: PropTypes.number.isRequired,
     sampleRate: PropTypes.number.isRequired,
     duration: PropTypes.number.isRequired,
-    // dateTimeRange: PropTypes.instanceOf(TimeRange).isRequired,
+    dateTimeRange: PropTypes.instanceOf(TimeRange).isRequired,
 
     //Handlers for active data
     sampleRateHandler: PropTypes.func.isRequired,
     sampleRateMaxHandler: PropTypes.func.isRequired,
-    durationHandler: PropTypes.func.isRequired
-    // dateTimeRangeHandler: PropTypes.func.isRequired
+    durationHandler: PropTypes.func.isRequired,
+    dateTimeRangeHandler: PropTypes.func.isRequired
 }
 
 export default GraphControlPanel;

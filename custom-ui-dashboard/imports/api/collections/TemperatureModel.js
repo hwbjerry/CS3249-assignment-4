@@ -16,7 +16,7 @@ if (Meteor.isServer) {
         check(duration, Number);
         check(sampleRate, Number);
 
-        const totalSamples = Math.round(totalTimeRange.duration() / duration * sampleRate);
+        const totalSamples = Math.round( duration/totalTimeRange.duration() * sampleRate);
         /**
          * Ref: https://docs.mongodb.com/manual/reference/method/db.collection.aggregate/
          * Ref: https://docs.mongodb.com/manual/reference/operator/aggregation/bucketAuto/
@@ -60,10 +60,24 @@ if (Meteor.isServer) {
         ];
 
         const new_pipeline = [
+            //TODO: match by room visibility if have time
+          //  {
+          //   $match: {
+          //     RoomId: 6
+          //   }
+          // },
+        //     {
+        //     $match: {
+        //         'timestamp': {
+        //             $gte: new Date('Wed Oct 02 2013 05:00:00 GMT+0800 (Singapore Standard Time)'),
+        //             $lt: new Date('Wed Oct 02 2013 05:30:00 GMT+0800 (Singapore Standard Time)')
+        //           }
+        //     }
+        // }
         {
           $bucketAuto: {
             groupBy: '$timestamp',
-            buckets: 2997,
+            buckets: totalSamples,
             output: {
                 count: {$sum:1},
               data: {

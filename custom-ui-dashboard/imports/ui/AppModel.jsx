@@ -31,23 +31,24 @@ class AppModel extends React.Component {
             avgs: [0, 0, 0, 0, 0, 0, 0],
             date: [timeRange[0], timeRange[1]],
             duration: this.props.duration,
-            range: [sampleRange[0], sampleRange[1]],
+            dateTimeRange: new TimeRange(totalTimeRange.begin(), totalTimeRange.end())
         };
 
         this.updateDuration = this.updateDuration.bind(this);
         this.updateSampleRate = this.updateSampleRate.bind(this);
         this.updateSampleRateMax = this.updateSampleRateMax.bind(this);
+        this.updateDateTimeRange = debounce(this.updateDateTimeRange(), 500).bind(this);
     }
 
 
     //FloorPlan Panel Functions
     toggleRooms(e) {
         // visibility of the various rooms so slice
-       const visible = this.state.visible.slice();
+        // console.log(e);
+       const visible = this.state.visible;
        visible[e] = !this.state.visible[e];
-       this.setState({
-           visible: visible,
-       });
+       this.setState({visible: visible,});
+       // console.log(this.state.visible);
     }
 
     //Colour of the room depends on the
@@ -76,6 +77,10 @@ class AppModel extends React.Component {
         sampleRateMaxHandler(sampleRateMax);
     }
 
+    updateDateTimeRange(dateTimeRange) {
+        this.setState({dateTimeRange});
+    }
+
 
     render() {
         if(this.props.loading) {
@@ -86,19 +91,25 @@ class AppModel extends React.Component {
         }
         else{
             const {sampleRate, duration, sampleRateMax} = this.props;
-
+            const {dateTimeRange} = this.state;
             return (
                 <div>
                     {/*<h1>Hello</h1>*/}
                     <div className="container">
-                    <GraphControlPanel sampleRateMin={this.state.range[0]} sampleRateMax={sampleRateMax}
+                    <GraphControlPanel sampleRateMin={sampleRange[0]} sampleRateMax={sampleRateMax}
                                        sampleRate={sampleRate} duration={duration}
+                                       dateTimeRange={dateTimeRange} dateTimeRangeHandler={this.updateDateTimeRange}
                                        durationHandler={this.updateDuration}
                                        sampleRateHandler={this.updateSampleRate} sampleRateMaxHandler={this.updateSampleRateMax}
                     />
                     </div>
                     <div>
-                        <Graph visibility={this.state.visible} dataset={this.props.rawData}>
+                        <Graph visibility={this.state.visible} dataset={this.props.rawData}
+                                sampleRateMin={sampleRange[0]} sampleRateMax={sampleRateMax}
+                                       sampleRate={sampleRate} duration={duration}
+                                       dateTimeRange={dateTimeRange} dateTimeRangeHandler={this.updateDateTimeRange}
+                                       durationHandler={this.updateDuration}
+                                       sampleRateHandler={this.updateSampleRate} sampleRateMaxHandler={this.updateSampleRateMax}>
                         </Graph>
                     </div>
 
