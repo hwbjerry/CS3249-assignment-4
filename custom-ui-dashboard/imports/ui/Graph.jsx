@@ -139,7 +139,7 @@ class Graph extends React.Component {
 			data:[
 				{
 					visible: visibility[0],
-					type: "line",
+					type: "spline",
 					showInLegend: true,
 					name: "room 0",
 					xValueFormatString: "DD/MM/YY hh:mm tt",
@@ -148,7 +148,7 @@ class Graph extends React.Component {
 				},
 				{
 					visible: visibility[1],
-					type: "line",
+					type: "spline",
 					showInLegend: true,
 					name: "room 1",
 					xValueFormatString: "DD/MM/YY hh:mm tt",
@@ -157,7 +157,7 @@ class Graph extends React.Component {
 				},
 				{
 					visible: visibility[2],
-					type: "line",
+					type: "spline",
 					showInLegend: true,
 					name: "room 2",
 					xValueFormatString: "DD/MM/YY hh:mm tt",
@@ -166,7 +166,7 @@ class Graph extends React.Component {
 				},
 				{
 					visible: visibility[3],
-					type: "line",
+					type: "spline",
 					showInLegend: true,
 					name: "room 3",
 					xValueFormatString: "DD/MM/YY hh:mm tt",
@@ -175,7 +175,7 @@ class Graph extends React.Component {
 				},
 				{
 					visible: visibility[4],
-					type: "line",
+					type: "spline",
 					showInLegend: true,
 					name: "room 4",
 					xValueFormatString: "DD/MM/YY hh:mm tt",
@@ -184,7 +184,7 @@ class Graph extends React.Component {
 				},
 				{
 					visible: visibility[5],
-					type: "line",
+					type: "spline",
 					showInLegend: true,
 					name: "room 5",
 					xValueFormatString: "DD/MM/YY hh:mm tt",
@@ -193,7 +193,7 @@ class Graph extends React.Component {
 				},
 				{
 					visible: visibility[6],
-					type: "line",
+					type: "spline",
 					showInLegend: true,
 					name: "room 6",
 					xValueFormatString: "DD/MM/YY hh:mm tt",

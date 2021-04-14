@@ -28,14 +28,17 @@ export class App extends React.Component {
         this.state = {
             duration: totalTimeRange.duration(),
             sampleRate: sampleRange[1],
-            sampleRateMax: sampleRange[1]
+            sampleRateMax: sampleRange[1],
+            visible: [true, true, true, true, true, true, true],
+            dateTimeRange: new TimeRange(totalTimeRange.begin(), totalTimeRange.end())
         };
 
 
-        this.updateDuration = debounce(this.updateDuration, 500).bind(this);
-        this.updateSampleRate = debounce(this.updateSampleRate, 100).bind(this);
-        this.updateSampleRateMax = debounce(this.updateSampleRateMax, 100).bind(this);
-
+        this.updateDuration = debounce(this.updateDuration, 50).bind(this);
+        this.updateSampleRate = debounce(this.updateSampleRate, 50).bind(this);
+        this.updateSampleRateMax = debounce(this.updateSampleRateMax, 50).bind(this);
+        this.updateDateTimeRange = debounce(this.updateDateTimeRange, 50).bind(this);
+        this.toggleRooms = debounce(this.toggleRooms, 50).bind(this);
     }
 
 
@@ -55,14 +58,27 @@ export class App extends React.Component {
         if(newSampleRateMax !== sampleRateMax) this.setState({sampleRateMax: newSampleRateMax});
     }
 
+    updateDateTimeRange(newDateTimeRange) {
+        console.log(newDateTimeRange);
+        const { dateTimeRange } = this.state;
+        if(newDateTimeRange !== dateTimeRange) this.setState({dateTimeRange: newDateTimeRange});
+    }
+
+    toggleRooms(newVisible) {
+       const {visible} = this.state;
+       if(visible !== newVisible) this.setState({visible: visible,});
+    }
+
     render() {
         const { sampleRate, sampleRateMax, duration } = this.state;
-
+        const { visible, dateTimeRange } = this.state;
     return (
         <AppModel sampleRate={sampleRate} sampleRateMax={sampleRateMax} duration={duration}
             sampleRateHandler={this.updateSampleRate}
             sampleRateMaxHandler={this.updateSampleRateMax}
             durationHandler={this.updateDuration}
+            visible={visible} visibleHandler={this.toggleRooms}
+            dateTimeRange={dateTimeRange} dateTimeRangeHandler={this.updateDateTimeRange}
         />
         );
     }

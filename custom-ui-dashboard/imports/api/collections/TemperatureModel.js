@@ -12,7 +12,7 @@ temperature_data.attachSchema(schema);
 
 // https://docs.meteor.com/api/pubsub.html
 if (Meteor.isServer) {
-    Meteor.publish('temperature_data', function callback({duration, sampleRate}){
+    Meteor.publish('temperature_data', function callback({duration, sampleRate, visible, dateTimeRangeBegin, dateTimeRangeEnd}){
         check(duration, Number);
         check(sampleRate, Number);
 
@@ -21,6 +21,12 @@ if (Meteor.isServer) {
          * Ref: https://docs.mongodb.com/manual/reference/method/db.collection.aggregate/
          * Ref: https://docs.mongodb.com/manual/reference/operator/aggregation/bucketAuto/
          */
+        var roomsSelected = [];
+        for(let i = 0; i < 7; i++) {
+            if(visible[i]) roomsSelected.push(i);
+        }
+        // console.log(dateTimeRangeBegin);
+        // console.log(dateTimeRangeEnd);
 
         const pipeline = [
         {
@@ -61,19 +67,16 @@ if (Meteor.isServer) {
 
         const new_pipeline = [
             //TODO: match by room visibility if have time
-          //  {
-          //   $match: {
-          //     RoomId: 6
-          //   }
-          // },
-        //     {
-        //     $match: {
-        //         'timestamp': {
-        //             $gte: new Date('Wed Oct 02 2013 05:00:00 GMT+0800 (Singapore Standard Time)'),
-        //             $lt: new Date('Wed Oct 02 2013 05:30:00 GMT+0800 (Singapore Standard Time)')
-        //           }
-        //     }
-        // }
+           {
+            $match: {
+              RoomId: {$in: roomsSelected},
+                'timestamp': {
+                    $gte: new Date(dateTimeRangeBegin),
+                    $lt: new Date(dateTimeRangeEnd)
+                  }
+            }
+          },
+
         {
           $bucketAuto: {
             groupBy: '$timestamp',

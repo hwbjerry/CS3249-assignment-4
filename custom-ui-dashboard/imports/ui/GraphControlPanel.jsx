@@ -11,7 +11,6 @@ class GraphControlPanel extends React.Component {
     constructor(props) {
         super(props);
 
-
         this.updateDateTimeRange = this.updateDateTimeRange.bind(this);
         this.updateSampleRate = this.updateSampleRate.bind(this);
         this.updateSampleRateMax = this.updateSampleRateMax.bind(this);
@@ -20,9 +19,7 @@ class GraphControlPanel extends React.Component {
     updateDateTimeRange(dateTimeRange) {
         const { durationHandler } = this.props;
         durationHandler(dateTimeRange.duration());
-        // const { dateTimeRangeHandler } = this.props;
-        // console.log(dateTimeRange);
-        // dateTimeRangeHandler(dateTimeRange);
+
         const { dateTimeRangeHandler } = this.props;
         dateTimeRangeHandler(dateTimeRange);
         this.updateMaxSamplePoints();
@@ -38,28 +35,20 @@ class GraphControlPanel extends React.Component {
         sampleRateMaxHandler(sampleRateMax);
     }
 
-
     updateMaxSamplePoints = () => {
         //select from bucket generated based on room selected
         // for now make max 2555
         const { dateTimeRange } = this.props;
-        // const x = 2555; // use total.duration()
+
         const y = (Math.round( dateTimeRange.duration() / totalTimeRange.duration() * sampleRange[1]));
         const x = (y < 0) ? 2 : Math.round( dateTimeRange.duration()/totalTimeRange.duration() * sampleRange[1]);
-        this.updateSampleRateMax(x);
-        // console.log(this.state.maxRange);
-        // console.log(this.state.currentRange);
 
+        this.updateSampleRateMax(x);
         if (x < this.props.sampleRate) {
             this.updateSampleRate(x);
         }
     }
 
-    //TODO: remove later used for testing
-    handleClick = () => {
-        console.log('Click happened');
-        console.log(this.props.sampleRate);
-    }
 
     render() {
             const { sampleRateMin, sampleRateMax, sampleRate} = this.props;

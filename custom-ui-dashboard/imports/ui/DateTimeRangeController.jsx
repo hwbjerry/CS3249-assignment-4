@@ -19,14 +19,19 @@ class DateTimeRangeController extends React.Component {
      */
     dateTimeRangeHandler(start, end) {
         const {dateTimeRangeHandler} =this.props;
-        if (start && end) {
+        // console.log(start);
+        // console.log(end);
+        // console.log(new TimeRange(start, end));
+        // if (start && end) {
           dateTimeRangeHandler(new TimeRange(start, end));
-        }
+        // }
     }
 
 
 
   handleCallBack = (start, end, label) => {
+       // console.log(start);
+       //  console.log(end);
     this.dateTimeRangeHandler(start, end);
   }
 

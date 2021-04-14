@@ -27,28 +27,22 @@ class AppModel extends React.Component {
          * @type {sampleRate} sampleRate: Represents user selected rate.
          */
         this.state = {
-            visible: [true, true, true, true, true, true, true],
             avgs: [0, 0, 0, 0, 0, 0, 0],
-            date: [timeRange[0], timeRange[1]],
-            duration: this.props.duration,
-            dateTimeRange: new TimeRange(totalTimeRange.begin(), totalTimeRange.end())
         };
 
         this.updateDuration = this.updateDuration.bind(this);
         this.updateSampleRate = this.updateSampleRate.bind(this);
         this.updateSampleRateMax = this.updateSampleRateMax.bind(this);
-        this.updateDateTimeRange = debounce(this.updateDateTimeRange(), 500).bind(this);
+        this.updateDateTimeRange = this.updateDateTimeRange.bind(this);
+        this.toggleRooms = this.toggleRooms.bind(this);
     }
 
 
     //FloorPlan Panel Functions
     toggleRooms(e) {
-        // visibility of the various rooms so slice
-        // console.log(e);
-       const visible = this.state.visible;
-       visible[e] = !this.state.visible[e];
-       this.setState({visible: visible,});
-       // console.log(this.state.visible);
+       const {visibleHandler, visible} = this.props;
+       visible[e] = !visible[e];
+       visibleHandler(visible);
     }
 
     //Colour of the room depends on the
@@ -78,7 +72,13 @@ class AppModel extends React.Component {
     }
 
     updateDateTimeRange(dateTimeRange) {
-        this.setState({dateTimeRange});
+        console.log(dateTimeRange);
+        const { dateTimeRangeHandler } = this.props;
+        dateTimeRangeHandler(dateTimeRange);
+    }
+
+    hello() {
+        console.log("hello");
     }
 
 
@@ -90,8 +90,8 @@ class AppModel extends React.Component {
             );
         }
         else{
-            const {sampleRate, duration, sampleRateMax} = this.props;
-            const {dateTimeRange} = this.state;
+            const {sampleRate, duration, sampleRateMax, rawData} = this.props;
+            const {visible, dateTimeRange} = this.props;
             return (
                 <div>
                     {/*<h1>Hello</h1>*/}
@@ -104,7 +104,7 @@ class AppModel extends React.Component {
                     />
                     </div>
                     <div>
-                        <Graph visibility={this.state.visible} dataset={this.props.rawData}
+                        <Graph visibility={visible} dataset={rawData}
                                 sampleRateMin={sampleRange[0]} sampleRateMax={sampleRateMax}
                                        sampleRate={sampleRate} duration={duration}
                                        dateTimeRange={dateTimeRange} dateTimeRangeHandler={this.updateDateTimeRange}
@@ -115,7 +115,7 @@ class AppModel extends React.Component {
 
                     <div className={"main_floorplan"}>
                         <FloorPlan
-                            visible={this.state.visible}
+                            visible={visible}
                             rooms={this.getRoomColour()}
                             onClick={(i) => this.toggleRooms(i)}
                         />
@@ -127,27 +127,33 @@ class AppModel extends React.Component {
     }
 }
 
-export default withTracker(({sampleRate, sampleRateMax, duration}) => {
-    // console.log(duration);
-    // console.log(sampleRate);
-    // console.log(sampleRateMax);
+export default withTracker(({sampleRate, sampleRateMax, duration, visible, dateTimeRange}) => {
+    // console.log(dateTimeRange);
+    const start = dateTimeRange.begin().toString();
+    const end = dateTimeRange.end().toString();
+    // console.log(start);
+
     const handle = Meteor.subscribe('temperature_data', {
         sampleRate: sampleRate,
-        duration: duration
+        duration: duration,
+        visible: visible,
+        dateTimeRangeBegin: start,
+        dateTimeRangeEnd: end
     });
     // if(handle.ready()) {
     const rawData = temperature_data.find({}).fetch();
-    const loading = rawData.length !== 7;
+    const loading = rawData.length === 0;
     // }
 
-    console.log(loading);
-    console.log(rawData);
+
     return {
         rawData: rawData,
         loading: loading,
         sampleRate: sampleRate,
         sampleRateMax: sampleRateMax,
-        duration: duration
+        duration: duration,
+        visible: visible,
+        dateTimeRange: dateTimeRange
     };
 })(AppModel);
 
@@ -168,7 +174,12 @@ AppModel.propTypes = {
     sampleRateHandler: PropTypes.func.isRequired,
     sampleRateMax: PropTypes.number.isRequired,
     sampleRateMaxHandler: PropTypes.func.isRequired,
-    durationHandler: PropTypes.func.isRequired
+    durationHandler: PropTypes.func.isRequired,
+
+    visible: PropTypes.arrayOf(PropTypes.bool.isRequired).isRequired,
+    dateTimeRange: PropTypes.instanceOf(TimeRange).isRequired,
+    visibleHandler: PropTypes.func.isRequired,
+    dateTimeRangeHandler: PropTypes.func.isRequired
 };
 
 AppModel.defaultProps = {

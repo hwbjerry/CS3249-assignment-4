@@ -28,7 +28,7 @@ class SampleRateRangeController extends React.Component {
         const {sampleRate} = this.state;
         sampleRateHandler(sampleRate);
 
-        console.log("WHY! ME");
+        // console.log("WHY! ME");
     }
 
     render() {
