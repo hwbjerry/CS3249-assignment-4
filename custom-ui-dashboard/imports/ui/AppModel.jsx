@@ -27,32 +27,52 @@ class AppModel extends React.Component {
          * @type {sampleRate} sampleRate: Represents user selected rate.
          */
         this.state = {
-            avgs: [0, 0, 0, 0, 0, 0, 0],
+            avgs: this.mapDataset(this.props.rawData),
+            visible: [true, true, true, true, true, true, true],
         };
 
         this.updateDuration = this.updateDuration.bind(this);
         this.updateSampleRate = this.updateSampleRate.bind(this);
         this.updateSampleRateMax = this.updateSampleRateMax.bind(this);
         this.updateDateTimeRange = this.updateDateTimeRange.bind(this);
-        this.toggleRooms = this.toggleRooms.bind(this);
+        this.updateVisible = this.updateVisible.bind(this);
     }
 
+    mapDataset(dataset){
+    	var room_datapoints = [0,0,0,0,0,0,0];
+		const visibility = this.props.visibility;
 
-    //FloorPlan Panel Functions
-    toggleRooms(e) {
-       const {visibleHandler, visible} = this.props;
-       visible[e] = !visible[e];
-       visibleHandler(visible);
-    }
+    	dataset.forEach(room => {
+			room.points.forEach(point => {
+				if(visibility[room._id]) {
+					room_datapoints[room._id] += point.temperature;
+				}
+			});
+		});
 
-    //Colour of the room depends on the
-    getRoomColour() {
+    	return room_datapoints;
+	}
+
+
+	getRoomColour() {
         let values = new Array();
         const avgs = this.state.avgs.slice();
         for (var i = 0; i < avgs.length; i ++) {
             values[i] = "hsla(" + 220 + ",100%,70%,"+ 0.3 + ")";
         }
         return values;
+    }
+
+    toggleRooms(e) {
+        // visibility of the various rooms so slice
+        // console.log(e);
+       const visible = this.state.visible;
+       visible[e] = !this.state.visible[e];
+
+       const { visibleHandler } = this.props;
+       visibleHandler(visible)
+       this.setState({visible: visible,});
+       // console.log(this.state.visible);
     }
 
     //Control Panel Functions
@@ -72,13 +92,14 @@ class AppModel extends React.Component {
     }
 
     updateDateTimeRange(dateTimeRange) {
-        console.log(dateTimeRange);
+        // console.log(dateTimeRange);
         const { dateTimeRangeHandler } = this.props;
         dateTimeRangeHandler(dateTimeRange);
     }
-
-    hello() {
-        console.log("hello");
+    updateVisible(visible) {
+        console.log("did you");
+        const { visibleHandler } = this.props;
+        visibleHandler(visible);
     }
 
 
@@ -91,7 +112,7 @@ class AppModel extends React.Component {
         }
         else{
             const {sampleRate, duration, sampleRateMax, rawData} = this.props;
-            const {visible, dateTimeRange} = this.props;
+            const {visible, dateTimeRange, avgs} = this.props;
             return (
                 <div>
                     {/*<h1>Hello</h1>*/}
@@ -105,19 +126,27 @@ class AppModel extends React.Component {
                     </div>
                     <div>
                         <Graph visibility={visible} dataset={rawData}
-                                sampleRateMin={sampleRange[0]} sampleRateMax={sampleRateMax}
-                                       sampleRate={sampleRate} duration={duration}
-                                       dateTimeRange={dateTimeRange} dateTimeRangeHandler={this.updateDateTimeRange}
-                                       durationHandler={this.updateDuration}
-                                       sampleRateHandler={this.updateSampleRate} sampleRateMaxHandler={this.updateSampleRateMax}>
+                                sampleRateMin={sampleRange[0]}
+                               sampleRateMax={sampleRateMax}
+                               sampleRate={sampleRate} duration={duration}
+                               dateTimeRange={dateTimeRange}
+                               // dateTimeRangeHandler={this.updateDateTimeRange}
+                               // durationHandler={this.updateDuration}
+                               // sampleRateHandler={this.updateSampleRate}
+                               // sampleRateMaxHandler={this.updateSampleRateMax}
+                        >
                         </Graph>
                     </div>
 
                     <div className={"main_floorplan"}>
                         <FloorPlan
-                            visible={visible}
+                            // visible={this.state.visible}
                             rooms={this.getRoomColour()}
                             onClick={(i) => this.toggleRooms(i)}
+                            visible={visible} dataset={rawData} visibleHandler={this.updateVisible} avgs ={avgs}
+                            // rooms={this.getRoomColor()} onClick={(i) => this.toggleRoom(i)}
+                            // rooms={this.getRoomColour()}
+                            // onClick={(i) => this.toggleRooms(i)}
                         />
                     </div>
 
@@ -127,7 +156,7 @@ class AppModel extends React.Component {
     }
 }
 
-export default withTracker(({sampleRate, sampleRateMax, duration, visible, dateTimeRange}) => {
+export default withTracker(({sampleRate, sampleRateMax, duration, visible, dateTimeRange, avg}) => {
     // console.log(dateTimeRange);
     const start = dateTimeRange.begin().toString();
     const end = dateTimeRange.end().toString();
@@ -145,6 +174,8 @@ export default withTracker(({sampleRate, sampleRateMax, duration, visible, dateT
     const loading = rawData.length === 0;
     // }
 
+    console.log(rawData);
+
 
     return {
         rawData: rawData,
@@ -153,7 +184,8 @@ export default withTracker(({sampleRate, sampleRateMax, duration, visible, dateT
         sampleRateMax: sampleRateMax,
         duration: duration,
         visible: visible,
-        dateTimeRange: dateTimeRange
+        dateTimeRange: dateTimeRange,
+        avg: avg
     };
 })(AppModel);
 
@@ -175,6 +207,8 @@ AppModel.propTypes = {
     sampleRateMax: PropTypes.number.isRequired,
     sampleRateMaxHandler: PropTypes.func.isRequired,
     durationHandler: PropTypes.func.isRequired,
+
+    avgs: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
 
     visible: PropTypes.arrayOf(PropTypes.bool.isRequired).isRequired,
     dateTimeRange: PropTypes.instanceOf(TimeRange).isRequired,

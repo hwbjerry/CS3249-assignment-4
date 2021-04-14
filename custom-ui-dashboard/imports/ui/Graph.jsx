@@ -7,10 +7,6 @@ import {CanvasJSChart} from "canvasjs-react-charts";
 import * as PropTypes from "prop-types";
 import {TimeRange} from "pondjs";
 
-
-
-const keys = ['0', '1', '2', '3', '4', '5', '6'];
-
 class Graph extends React.Component {
     constructor(props) {
         super(props);
@@ -92,13 +88,13 @@ class Graph extends React.Component {
 		const chart_datapoints = this.mapDataset(this.props.dataset);
         const options = {
 			theme: "light1", // "light1", "dark1", "dark2"
-			rangeChanged: function (e) {
-                if(e.trigger === "reset") {
-                    that.updateDateTimeRange(new TimeRange(new Date("2013-10-02T05:00:00"), new Date("2013-12-03T15:30:00")));
-                } else {
-                    that.updateDateTimeRange(new TimeRange(new Date(e.axisX[0].viewportMinimum),new Date(e.axisX[0].viewportMaximum)));
-                }
-            },
+			// rangeChanged: function (e) {
+            //     if(e.trigger === "reset") {
+            //         that.updateDateTimeRange(new TimeRange(new Date("2013-10-02T05:00:00"), new Date("2013-12-03T15:30:00")));
+            //     } else {
+            //         that.updateDateTimeRange(new TimeRange(new Date(e.axisX[0].viewportMinimum),new Date(e.axisX[0].viewportMaximum)));
+            //     }
+            // },
 			zoomEnabled: true,
 			animationEnabled: true,
 			title: {
@@ -274,8 +270,8 @@ Graph.propTypes = {
     dateTimeRange: PropTypes.instanceOf(TimeRange).isRequired,
 
     //Handlers for active data
-    sampleRateHandler: PropTypes.func.isRequired,
-    sampleRateMaxHandler: PropTypes.func.isRequired,
-    durationHandler: PropTypes.func.isRequired,
-    dateTimeRangeHandler: PropTypes.func.isRequired
+    // sampleRateHandler: PropTypes.func.isRequired,
+    // sampleRateMaxHandler: PropTypes.func.isRequired,
+    // durationHandler: PropTypes.func.isRequired,
+    // dateTimeRangeHandler: PropTypes.func.isRequired
 }

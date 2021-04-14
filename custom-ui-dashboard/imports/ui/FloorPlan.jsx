@@ -1,18 +1,70 @@
 import React from 'react';
+import PropTypes from "prop-types";
+import SampleRateRangeController from "./SampleRateRangeController";
 
 class FloorPlan extends React.Component {
     constructor(props) {
         super(props);
     }
-
+    // changeColour(e) {
+    //     // When user clicks on the room and does not want the line graph to be shown, room colour changes to white too
+    //     if (this.props.visible[e] === false)  {
+    //         return "#ffffff";
+    //     } else {
+    //         return this.props.rooms[e];
+    //     }
+    // }
     changeColour(e) {
+        // if (this.props.visible[e] === false) {
+    	// 	return "#FFFFFF";
+    	// } else {
+    	// 	return this.props.rooms[e];
+    	// }
         // When user clicks on the room and does not want the line graph to be shown, room colour changes to white too
-        if (this.props.visible[e] === false)  {
-            return "#ffffff";
+        const {visible} = this.props;
+        var colour;
+        if (visible[e] === false)  {
+            colour = "#ffffff";
         } else {
-            return this.props.rooms[e];
+            colour = this.getRoomColour(this.props.avgs[e]);
         }
+        return colour;
     }
+    //
+    //
+    //
+    // //FloorPlan Panel Functions
+    // toggleRooms(e) {
+    //     console.log(e);
+    //    const {visibleHandler, visible} = this.props;
+    //    visible[e] = !visible[e];
+    //    visibleHandler(visible);
+    // }
+    //
+    //Colour of the room depends on the
+    getRoomColour(avg) {
+        var colour  = "";
+        if(avg <= 18) return "#87CEFA";
+        else if (avg <=18.5) return "#87CEEB";
+        else if (avg <= 19) return "#ADD8E6";
+        else if (avg <= 19.5) return "#00BFFF";
+        else if (avg <= 20) return "#1E90FF";
+        else if (avg <= 20.5) return "#4682B4";
+        else if (avg <= 21) return "#4169E1";
+        else if (avg <= 21.5) return "#0000FF";
+        else if (avg <= 22) return "#0000CD";
+        else if (avg <= 22.5) return "#00008B";
+        else if (avg <= 23) return "#000080";
+        else if (avg <= 23.5) return "#191970";
+        else return "#483D8B";
+    }
+
+    updateVisible(e) {
+         const {visibleHandler, visible} = this.props;
+         visible[e] = !visible[e];
+         visibleHandler(e);
+    }
+
     render() {
         return (
             <svg
@@ -115,3 +167,10 @@ class FloorPlan extends React.Component {
 }
 
 export default FloorPlan;
+
+FloorPlan.propTypes = {
+    visible: PropTypes.arrayOf(PropTypes.bool.isRequired).isRequired,
+    visibleHandler: PropTypes.func.isRequired,
+    avgs: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired
+
+};

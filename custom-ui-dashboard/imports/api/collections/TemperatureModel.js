@@ -58,8 +58,8 @@ if (Meteor.isServer) {
           }, {
             '$match': {
               '_id.timestamp': {
-                '$gte': new Date('Wed, 02 Oct 2013 05:00:00 GMT'),
-                '$lt': new Date('Wed, 02 Oct 2013 05:30:00 GMT')
+                '$gte': new Date(dateTimeRangeBegin),
+                '$lt': new Date(dateTimeRangeEnd)
               }
             }
           }

@@ -69,10 +69,6 @@ class GraphControlPanel extends React.Component {
                         sampleRateHandler={this.updateSampleRate}
                     />
                 </div>
-                {/*TODO: remove later used for testing*/}
-                {/*{this.props.sampleRateMax}*/}
-                {/*<button onMouseUp={this.handleClick}>test</button>*/}
-                {/*{this.props.sampleRate}*/}
             </div>
         )
     }
