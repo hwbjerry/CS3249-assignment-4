@@ -130,3 +130,5 @@ if (Meteor.isServer) {
 }
 
 export default temperature_data;
+
+

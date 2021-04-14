@@ -30,10 +30,8 @@ export class App extends React.Component {
             sampleRate: sampleRange[1],
             sampleRateMax: sampleRange[1],
             visible: [true, true, true, true, true, true, true],
-            dateTimeRange: new TimeRange(totalTimeRange.begin(), totalTimeRange.end()),
-            avgs: [0, 0, 0, 0, 0, 0, 0]
+            dateTimeRange: new TimeRange(totalTimeRange.begin(), totalTimeRange.end())
         };
-
 
         this.updateDuration = debounce(this.updateDuration, 50).bind(this);
         this.updateSampleRate = debounce(this.updateSampleRate, 50).bind(this);
@@ -72,7 +70,7 @@ export class App extends React.Component {
 
     render() {
         const { sampleRate, sampleRateMax, duration } = this.state;
-        const { visible, dateTimeRange, avgs } = this.state;
+        const { visible, dateTimeRange } = this.state;
     return (
         <AppModel sampleRate={sampleRate} sampleRateMax={sampleRateMax} duration={duration}
             sampleRateHandler={this.updateSampleRate}
@@ -80,7 +78,6 @@ export class App extends React.Component {
             durationHandler={this.updateDuration}
             visible={visible} visibleHandler={this.updateVisible}
             dateTimeRange={dateTimeRange} dateTimeRangeHandler={this.updateDateTimeRange}
-                  avgs={avgs}
         />
         );
     }

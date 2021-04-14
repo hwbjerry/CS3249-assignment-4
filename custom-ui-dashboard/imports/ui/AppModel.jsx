@@ -12,6 +12,7 @@ import LoadingScreen from 'react-loading-screen';
 import temperature_data from "../api/collections/TemperatureModel";
 // import * as Session from "fibers";
 import * as PropTypes from "prop-types";
+import AwesomeComponent from "./AwesomeComponent";
 
 
 class AppModel extends React.Component {
@@ -27,7 +28,6 @@ class AppModel extends React.Component {
          * @type {sampleRate} sampleRate: Represents user selected rate.
          */
         this.state = {
-            avgs: this.mapDataset(this.props.rawData),
             visible: [true, true, true, true, true, true, true],
         };
 
@@ -38,41 +38,27 @@ class AppModel extends React.Component {
         this.updateVisible = this.updateVisible.bind(this);
     }
 
-    mapDataset(dataset){
-    	var room_datapoints = [0,0,0,0,0,0,0];
-		const visibility = this.props.visibility;
 
-    	dataset.forEach(room => {
-			room.points.forEach(point => {
-				if(visibility[room._id]) {
-					room_datapoints[room._id] += point.temperature;
-				}
-			});
-		});
-
-    	return room_datapoints;
-	}
-
-
-	getRoomColour() {
-        let values = new Array();
-        const avgs = this.state.avgs.slice();
-        for (var i = 0; i < avgs.length; i ++) {
-            values[i] = "hsla(" + 220 + ",100%,70%,"+ 0.3 + ")";
-        }
-        return values;
-    }
+	// getRoomColour() {
+    //     let values = new Array();
+    //     const avgs = this.state.avgs.slice();
+    //     for (var i = 0; i < avgs.length; i ++) {
+    //         values[i] = "hsla(" + 220 + ",100%,70%,"+ 0.3 + ")";
+    //     }
+    //     return values;
+    // }
 
     toggleRooms(e) {
         // visibility of the various rooms so slice
-        // console.log(e);
-       const visible = this.state.visible;
-       visible[e] = !this.state.visible[e];
+       console.log(e);
+       const visible = this.props.visible;
+       var temp = visible;
+       temp[e] = !visible[e];
+       // console.log(temp);
+       // console.log(visible);
 
        const { visibleHandler } = this.props;
-       visibleHandler(visible)
-       this.setState({visible: visible,});
-       // console.log(this.state.visible);
+       visibleHandler(temp);
     }
 
     //Control Panel Functions
@@ -97,17 +83,20 @@ class AppModel extends React.Component {
         dateTimeRangeHandler(dateTimeRange);
     }
     updateVisible(visible) {
-        console.log("did you");
+        // console.log("did you");
         const { visibleHandler } = this.props;
         visibleHandler(visible);
     }
 
 
     render() {
+        // console.log(this.props.rawData);
         if(this.props.loading) {
             return (
 
-                <div></div>
+                <div>
+                    <AwesomeComponent></AwesomeComponent>
+                </div>
             );
         }
         else{
@@ -140,13 +129,8 @@ class AppModel extends React.Component {
 
                     <div className={"main_floorplan"}>
                         <FloorPlan
-                            // visible={this.state.visible}
-                            rooms={this.getRoomColour()}
-                            onClick={(i) => this.toggleRooms(i)}
-                            visible={visible} dataset={rawData} visibleHandler={this.updateVisible} avgs ={avgs}
-                            // rooms={this.getRoomColor()} onClick={(i) => this.toggleRoom(i)}
-                            // rooms={this.getRoomColour()}
-                            // onClick={(i) => this.toggleRooms(i)}
+                            visible={visible} dataset={rawData}
+                            visibleHandler={this.updateVisible}
                         />
                     </div>
 
@@ -156,7 +140,7 @@ class AppModel extends React.Component {
     }
 }
 
-export default withTracker(({sampleRate, sampleRateMax, duration, visible, dateTimeRange, avg}) => {
+export default withTracker(({sampleRate, sampleRateMax, duration, visible, dateTimeRange}) => {
     // console.log(dateTimeRange);
     const start = dateTimeRange.begin().toString();
     const end = dateTimeRange.end().toString();
@@ -171,12 +155,10 @@ export default withTracker(({sampleRate, sampleRateMax, duration, visible, dateT
     });
     // if(handle.ready()) {
     const rawData = temperature_data.find({}).fetch();
-    const loading = rawData.length === 0;
+    const loading = rawData.length !== 7;
     // }
-
+    console.log(loading);
     console.log(rawData);
-
-
     return {
         rawData: rawData,
         loading: loading,
@@ -184,8 +166,7 @@ export default withTracker(({sampleRate, sampleRateMax, duration, visible, dateT
         sampleRateMax: sampleRateMax,
         duration: duration,
         visible: visible,
-        dateTimeRange: dateTimeRange,
-        avg: avg
+        dateTimeRange: dateTimeRange
     };
 })(AppModel);
 
@@ -208,8 +189,6 @@ AppModel.propTypes = {
     sampleRateMaxHandler: PropTypes.func.isRequired,
     durationHandler: PropTypes.func.isRequired,
 
-    avgs: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
-
     visible: PropTypes.arrayOf(PropTypes.bool.isRequired).isRequired,
     dateTimeRange: PropTypes.instanceOf(TimeRange).isRequired,
     visibleHandler: PropTypes.func.isRequired,
@@ -217,8 +196,8 @@ AppModel.propTypes = {
 };
 
 AppModel.defaultProps = {
-    rawData: rooms.map(x =>({
-        _id: x, points:[]
-        })
-    )
+    rawData: rooms.map(x => ({
+    _id: x,
+    points: []
+  }))
 }

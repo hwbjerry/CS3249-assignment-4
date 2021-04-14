@@ -1,5 +1,5 @@
 import React from 'react';
-import '@devexpress/dx-react-chart-bootstrap4/dist/dx-react-chart-bootstrap4.css';
+// import '@devexpress/dx-react-chart-bootstrap4/dist/dx-react-chart-bootstrap4.css';
 import {sampleRange, timeRange, totalTimeRange} from './../api/Model/constant';
 
 import moment from "moment";

@@ -9,15 +9,11 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.11.2",
-    "@devexpress/dx-react-chart": "^2.7.5",
-    "@devexpress/dx-react-chart-bootstrap4": "^2.7.5",
-    "@devexpress/dx-react-chart-material-ui": "^2.7.5",
-    "@devexpress/dx-react-core": "^2.7.5",
+    "@emotion/react": "^11.1.5",
     "@material-ui/core": "^4.11.3",
     "bootstrap": "^4.6.0",
     "bootstrap-daterangepicker": "^3.1.0",
     "canvasjs-react-charts": "^1.0.5",
-    "devextreme-react": "^20.2.6",
     "jquery": "^3.6.0",
     "lodash-es": "^4.17.21",
     "meteor-node-stubs": "^1.0.1",
@@ -32,6 +28,7 @@
     "react-dom": "^16.13.1",
     "react-loading-screen": "0.0.17",
     "react-minimal-datetime-range": "^1.6.0",
+    "react-spinners": "^0.10.6",
     "simpl-schema": "^1.10.2"
   },
   "meteor": {

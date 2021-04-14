@@ -11,3 +11,13 @@ body {
   height: 300px;
   width: 750%;
 }
+
+.awesomeComponent {
+    color: Silver;
+    backgroundColor: "none";
+    padding:   10px;
+    fontFamily: "Arial";
+    margin: 0;
+    text-align: center;
+    horiz-align: center;
+}
