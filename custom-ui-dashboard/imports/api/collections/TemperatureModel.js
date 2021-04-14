@@ -25,8 +25,9 @@ if (Meteor.isServer) {
         for(let i = 0; i < 7; i++) {
             if(visible[i]) roomsSelected.push(i);
         }
-        // console.log(dateTimeRangeBegin);
-        // console.log(dateTimeRangeEnd);
+        console.log(roomsSelected);
+        console.log(dateTimeRangeBegin);
+        console.log(dateTimeRangeEnd);
 
         const pipeline = [
         {
@@ -67,15 +68,15 @@ if (Meteor.isServer) {
 
         const new_pipeline = [
             //TODO: match by room visibility if have time
-           {
+        {
             $match: {
               RoomId: {$in: roomsSelected},
                 'timestamp': {
                     $gte: new Date(dateTimeRangeBegin),
                     $lt: new Date(dateTimeRangeEnd)
-                  }
+                }
             }
-          },
+        },
 
         {
           $bucketAuto: {

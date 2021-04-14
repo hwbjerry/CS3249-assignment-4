@@ -39,28 +39,6 @@ class AppModel extends React.Component {
     }
 
 
-	// getRoomColour() {
-    //     let values = new Array();
-    //     const avgs = this.state.avgs.slice();
-    //     for (var i = 0; i < avgs.length; i ++) {
-    //         values[i] = "hsla(" + 220 + ",100%,70%,"+ 0.3 + ")";
-    //     }
-    //     return values;
-    // }
-
-    toggleRooms(e) {
-        // visibility of the various rooms so slice
-       console.log(e);
-       const visible = this.props.visible;
-       var temp = visible;
-       temp[e] = !visible[e];
-       // console.log(temp);
-       // console.log(visible);
-
-       const { visibleHandler } = this.props;
-       visibleHandler(temp);
-    }
-
     //Control Panel Functions
     updateDuration(duration) {
         const { durationHandler } = this.props;
@@ -82,10 +60,17 @@ class AppModel extends React.Component {
         const { dateTimeRangeHandler } = this.props;
         dateTimeRangeHandler(dateTimeRange);
     }
-    updateVisible(visible) {
+    updateVisible(e) {
+        const visible = this.state.visible;
+       visible[e] = !this.state.visible[e];
+
+       const { visibleHandler } = this.props;
+       visibleHandler(visible)
+       this.setState({visible: visible,});
         // console.log("did you");
-        const { visibleHandler } = this.props;
-        visibleHandler(visible);
+        // console.log(visible);
+        // const { visibleHandler } = this.props;
+        // visibleHandler(visible);
     }
 
 
@@ -101,7 +86,7 @@ class AppModel extends React.Component {
         }
         else{
             const {sampleRate, duration, sampleRateMax, rawData} = this.props;
-            const {visible, dateTimeRange, avgs} = this.props;
+            const {visible, dateTimeRange} = this.props;
             return (
                 <div>
                     {/*<h1>Hello</h1>*/}
@@ -119,10 +104,6 @@ class AppModel extends React.Component {
                                sampleRateMax={sampleRateMax}
                                sampleRate={sampleRate} duration={duration}
                                dateTimeRange={dateTimeRange}
-                               // dateTimeRangeHandler={this.updateDateTimeRange}
-                               // durationHandler={this.updateDuration}
-                               // sampleRateHandler={this.updateSampleRate}
-                               // sampleRateMaxHandler={this.updateSampleRateMax}
                         >
                         </Graph>
                     </div>
@@ -155,7 +136,7 @@ export default withTracker(({sampleRate, sampleRateMax, duration, visible, dateT
     });
     // if(handle.ready()) {
     const rawData = temperature_data.find({}).fetch();
-    const loading = rawData.length !== 7;
+    const loading = rawData.length === 0;
     // }
     console.log(loading);
     console.log(rawData);

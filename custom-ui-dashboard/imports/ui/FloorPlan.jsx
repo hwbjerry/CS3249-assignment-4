@@ -7,8 +7,10 @@ class FloorPlan extends React.Component {
         super(props);
 
         this.state = {
-            room_dataset: this.props.dataset
+            visibility: [true, true, true, true, true, true, true]
         }
+
+        this.updateVisible = this.updateVisible.bind(this);
     }
 
     getAvg(dataset) {
@@ -34,8 +36,9 @@ class FloorPlan extends React.Component {
     changeColour(avg, room_id) {
         // When user clicks on the room and does not want the line graph to be shown, room colour changes to white too
         const {visible} = this.props;
+        const {visibility} = this.state;
         let colour;
-        if (visible[room_id] === false)  {
+        if (visible[room_id] === false || visibility[room_id] === false)  {
             colour = "#ffffff";
         } else {
             colour = this.getRoomColour(avg);
@@ -45,25 +48,10 @@ class FloorPlan extends React.Component {
 
     //Colour of the room depends on the
     getRoomColour(avgtemp) {
-        // var colour  = "";
-        // if(avg <= 18) return "#87CEFA";
-        // else if (avg <=18.5) return "#87CEEB";
-        // else if (avg <= 19) return "#ADD8E6";
-        // else if (avg <= 19.5) return "#00BFFF";
-        // else if (avg <= 20) return "#1E90FF";
-        // else if (avg <= 20.5) return "#4682B4";
-        // else if (avg <= 21) return "#4169E1";
-        // else if (avg <= 21.5) return "#0000FF";
-        // else if (avg <= 22) return "#0000CD";
-        // else if (avg <= 22.5) return "#00008B";
-        // else if (avg <= 23) return "#000080";
-        // else if (avg <= 23.5) return "#191970";
-        // else return "#483D8B";
-
-        const temperatureUpper = 40;
-        const temperatureLower = 0;
+        const temperatureUpper = 32;
+        const temperatureLower = 3;
         const temperatureRange = temperatureUpper - temperatureLower;
-        const greenUpper = 220;
+        const greenUpper = 255;
         const greenLower = 0;
         const greenRange = greenUpper - greenLower;
         const greenTemperatureScale = temperatureRange / greenRange;
@@ -85,22 +73,15 @@ class FloorPlan extends React.Component {
         const {visibleHandler, visible} = this.props;
         var temp = visible;
         temp[e] = !visible[e];
-        // console.log(e);
-        // console.log(temp);
         visibleHandler(temp);
+
+        this.setState({visibility: temp});
     }
 
     render() {
         const {dataset} = this.props;
         console.log(dataset);
 
-        console.log(this.changeColour(this.getAvg(this.state.room_dataset, 0),0));
-        // const temp = dataset;
-        console.log(this.changeColour(this.getAvg(this.state.room_dataset, 1),1));
-        console.log(this.state.room_dataset);
-        // const temp = [dataset[0],dataset[1],dataset[2],dataset[3],dataset[4],dataset[5], dataset[6]];
-        console.log(this.state.room_dataset);
-        // console.log(this.changeColour(this.getAvg(temp, 1),1));
         const avg_of_room = this.getAvg(this.props.dataset);
 
         return (
@@ -112,7 +93,8 @@ class FloorPlan extends React.Component {
                         <rect id="Rectangle" stroke="#000000" strokeWidth="2" x="1" y="1" width="930" height="650" fill="white"></rect>
                         <text x="10" y="20" fill="red"> Floor Plan</text>
 
-                        <rect id="Room 0" stroke="#000000" strokeWidth="2" x="15" y="39" width="300" height="200" fill={this.changeColour(avg_of_room[0], 0)} onClick={() => this.updateVisible(1)}></rect>
+
+                        <rect id="Room 0" stroke="#000000" strokeWidth="2" x="15" y="39" width="300" height="200" fill={this.changeColour(avg_of_room[0], 0)} onClick={() => this.updateVisible(0)}></rect>
                         <rect id="Room 1" stroke="#000000" strokeWidth="2" x="15" y="396" width="150" height="255" fill={this.changeColour(avg_of_room[1], 1)} onClick={() => this.updateVisible(1)}></rect>
                         <rect id="Room 2" stroke="#000000" strokeWidth="2" x="165" y="396" width="150" height="255" fill={this.changeColour(avg_of_room[2], 2)} onClick={() => this.updateVisible(2)}></rect>
                         <rect id="Room 3" stroke="#000000" strokeWidth="2" x="315" y="396" width="150" height="255" fill={this.changeColour(avg_of_room[3], 3)} onClick={() => this.updateVisible(3)}></rect>
@@ -120,7 +102,7 @@ class FloorPlan extends React.Component {
                         <rect id="Room 5" stroke="#000000" strokeWidth="2" x="615" y="396" width="150" height="255" fill={this.changeColour(avg_of_room[5], 5)} onClick={() => this.updateVisible(5)}></rect>
                         <rect id="Room 6" stroke="#000000" strokeWidth="2" x="765" y="396" width="150" height="255" fill={this.changeColour(avg_of_room[6], 6)} onClick={() => this.updateVisible(6)}></rect>
 
-                        <text id="Room_0" fontWeight="bold" fill="black" x="115" y="200" fontSize="20px"> Room 0</text>
+                        <text id="R0" fontWeight="bold" fill="black" x="115" y="200" fontSize="20px"> Room 0</text>
                         <text id="R1" fontWeight="bold" fill="black" x="75" y="620" fontSize="20px">R1</text>
                         <text id="R2" fontWeight="bold" fill="black" x="225" y="620" fontSize="20px">R2</text>
                         <text id="R3" fontWeight="bold" fill="black" x="375" y="620" fontSize="20px">R3</text>

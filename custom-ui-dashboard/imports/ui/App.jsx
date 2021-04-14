@@ -49,7 +49,7 @@ export class App extends React.Component {
 
     updateSampleRate(newSampleRate) {
         const { sampleRate } = this.state;
-        if(newSampleRate !== sampleRate)this.setState({sampleRate: newSampleRate});
+        if(newSampleRate !== sampleRate) this.setState({sampleRate: newSampleRate});
     }
 
     updateSampleRateMax(newSampleRateMax) {
@@ -65,7 +65,12 @@ export class App extends React.Component {
 
     updateVisible(newVisible) {
        const {visible} = this.state;
-       if(visible !== newVisible) this.setState({visible: newVisible});
+       this.setState({visible: newVisible});
+       console.log(newVisible);
+       console.log(visible);
+       const { sampleRate, duration } = this.state;
+       this.setState({sampleRate:sampleRate});
+       this.setState({duration: duration});
     }
 
     render() {
