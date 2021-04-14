@@ -6,6 +6,11 @@ import 'bootstrap-daterangepicker/daterangepicker.css';
 import { debounce } from 'underscore';
 import {TimeRange} from "pondjs";
 import FloorPlan from './FloorPlan'
+import Graph from "./Graph";
+import { withTracker } from 'meteor/react-meteor-data';
+import LoadingScreen from 'react-loading-screen';
+import temperature_data from "../api/collections/TemperatureModel";
+import AppModel from "./AppModel";
 
 
 export class App extends React.Component {
@@ -21,46 +26,23 @@ export class App extends React.Component {
          * @type {sampleRate} sampleRate: Represents user selected rate.
          */
         this.state = {
-            visible: [true, true, true, true, true, true, true],
-            avgs: [0, 0, 0, 0, 0, 0, 0],
-            date: [timeRange[0], timeRange[1]],
-            duration: new TimeRange(totalTimeRange.begin(), totalTimeRange.end()),
-            range: [sampleRange[0], sampleRange[1]],
+            duration: totalTimeRange.duration(),
             sampleRate: sampleRange[1],
             sampleRateMax: sampleRange[1]
         };
 
-        // this.updateSampleRate = debounce(this.updateSampleRate, 100).bind(this);
+
         this.updateDuration = debounce(this.updateDuration, 500).bind(this);
-        this.updateSampleRate = debounce(this.updateSampleRate, 500).bind(this);
-        this.updateSampleRateMax = debounce(this.updateSampleRateMax, 500).bind(this);
+        this.updateSampleRate = debounce(this.updateSampleRate, 100).bind(this);
+        this.updateSampleRateMax = debounce(this.updateSampleRateMax, 100).bind(this);
 
     }
 
-    //FloorPlan Panel Functions
-    toggleRooms(e) {
-        // visibility of the various rooms so slice
-       const visible = this.state.visible.slice();
-       visible[e] = !this.state.visible[e];
-       this.setState({
-           visible: visible,
-       });
-    }
-
-    //Colour of the room depends on the
-    getRoomColour() {
-        let values = new Array();
-        const avgs = this.state.avgs.slice();
-        for (var i = 0; i < avgs.length; i ++) {
-            values[i] = "hsla(" + 220 + ",100%,70%,"+ 0.3 + ")";
-        }
-        return values;
-    }
 
     //Control Panel Functions
     updateDuration(newDuration) {
         const { duration } = this.state;
-        if (newDuration !== duration) {this.state.duration.set(newDuration);}
+        if (newDuration !== duration) this.setState({duration: newDuration});
     }
 
     updateSampleRate(newSampleRate) {
@@ -74,30 +56,14 @@ export class App extends React.Component {
     }
 
     render() {
-        const {sampleRate, duration, sampleRateMax} = this.state;
-        // console.log(duration.get());
-        // console.log(totalTimeRange.duration());
-        // console.log(sampleRate.get());
-        // const totalSamples = Math.round(totalTimeRange.duration() / duration.get() * sampleRate.get());
-        return (
-            <div>
-                <h1>Hello</h1>
-                <div className="container">
-                <GraphControlPanel sampleRateMin={this.state.range[0]} sampleRateMax={sampleRateMax}
-                                   sampleRate={sampleRate} duration={duration}
-                                   durationHandler={this.updateDuration} sampleRateHandler={this.updateSampleRate} sampleRateMaxHandler={this.updateSampleRateMax}
-                />
-                </div>
+        const { sampleRate, sampleRateMax, duration } = this.state;
 
-                <div className={"main_floorplan"}>
-                    <FloorPlan
-                        visible={this.state.visible}
-                        rooms={this.getRoomColour()}
-                        onClick={(i) => this.toggleRooms(i)}
-                    />
-                </div>
-
-            </div>
-        )
+    return (
+        <AppModel sampleRate={sampleRate} sampleRateMax={sampleRateMax} duration={duration}
+            sampleRateHandler={this.updateSampleRate}
+            sampleRateMaxHandler={this.updateSampleRateMax}
+            durationHandler={this.updateDuration}
+        />
+        );
     }
 }

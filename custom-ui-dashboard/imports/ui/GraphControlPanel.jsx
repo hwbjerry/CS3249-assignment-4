@@ -10,6 +10,10 @@ import * as PropTypes from "prop-types";
 class GraphControlPanel extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+           dateTimeRange: new TimeRange(totalTimeRange.begin(), totalTimeRange.end())
+        }
+
 
         this.updateDateTimeRange = this.updateDateTimeRange.bind(this);
         this.updateSampleRate = this.updateSampleRate.bind(this);
@@ -19,6 +23,10 @@ class GraphControlPanel extends React.Component {
     updateDateTimeRange(dateTimeRange) {
         const { durationHandler } = this.props;
         durationHandler(dateTimeRange.duration());
+        // const { dateTimeRangeHandler } = this.props;
+        // console.log(dateTimeRange);
+        // dateTimeRangeHandler(dateTimeRange);
+        this.setState({dateTimeRange});
         this.updateMaxSamplePoints();
 
     }
@@ -54,19 +62,21 @@ class GraphControlPanel extends React.Component {
     }
 
     render() {
+            const { sampleRateMin, sampleRateMax, sampleRate} = this.props;
+            const {dateTimeRange} = this.state;
           return (
             <div>
                 <div className="container">
                     <DateTimeRangeController
-                        dateTimeRange={this.props.duration}
+                        dateTimeRange={dateTimeRange}
                         dateTimeRangeHandler={this.updateDateTimeRange}
                     />
                 </div>
                 <div>
                     <SampleRateRangeController
-                        sampleRateMin={this.props.sampleRateMin}
-                        sampleRateMax={this.props.sampleRateMax}
-                        sampleRate={this.props.sampleRate}
+                        sampleRateMin={sampleRateMin}
+                        sampleRateMax={sampleRateMax}
+                        sampleRate={sampleRate}
                         sampleRateHandler={this.updateSampleRate}
                     />
                 </div>
@@ -84,12 +94,14 @@ GraphControlPanel.propTypes = {
     sampleRateMin: PropTypes.number.isRequired,
     sampleRateMax: PropTypes.number.isRequired,
     sampleRate: PropTypes.number.isRequired,
-    duration: PropTypes.instanceOf(TimeRange).isRequired,
+    duration: PropTypes.number.isRequired,
+    // dateTimeRange: PropTypes.instanceOf(TimeRange).isRequired,
 
     //Handlers for active data
     sampleRateHandler: PropTypes.func.isRequired,
     sampleRateMaxHandler: PropTypes.func.isRequired,
     durationHandler: PropTypes.func.isRequired
+    // dateTimeRangeHandler: PropTypes.func.isRequired
 }
 
 export default GraphControlPanel;

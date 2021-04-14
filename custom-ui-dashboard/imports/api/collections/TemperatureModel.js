@@ -1,7 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
-import { ReactiveAggregate } from 'meteor/tunguska:reactive-aggregate';
+// import { ReactiveAggregate } from 'meteor/tunguska:reactive-aggregate';
+import { ReactiveAggregate } from 'meteor/jcbernack:reactive-aggregate';
 import { totalTimeRange } from '../Model/constant';
 import {schema} from '../Model/schema';
 
@@ -23,15 +24,15 @@ if (Meteor.isServer) {
 
         const pipeline = [
         {
-        $group: {
-          _id: '$_id.RoomId',
-          points: {
-            $push: {
-              timestamp: '$_id.timestamp',
-              temperature: '$temperature'
+            $group: {
+              _id: '$_id.timestamp',
+              points: {
+                $push: {
+                  timestamp: '$_id.roomId',
+                  temperature: '$temperature'
+                }
+              }
             }
-          }
-        }
         }
         ];
 
@@ -57,7 +58,57 @@ if (Meteor.isServer) {
             }
           }
         ];
-        ReactiveAggregate(this, temperature_data, pipeline);
+
+        const new_pipeline = [
+        {
+          $bucketAuto: {
+            groupBy: '$timestamp',
+            buckets: 2997,
+            output: {
+                count: {$sum:1},
+              data: {
+                $push: {
+                  RoomId: '$RoomId',
+                  temperature: '$temperature'
+                }
+              }
+            }
+          }
+        },
+        {
+          $unwind: {
+            path: '$data'
+          }
+        },
+        {
+          $group: {
+            _id: {
+              RoomId: '$data.RoomId',
+              timestamp: '$_id.min'
+            },
+            temperature: {
+              $avg: '$data.temperature'
+            }
+          }
+        },
+        {
+          $sort: {
+            '_id.timestamp': 1
+          }
+        },
+        {
+          $group: {
+            _id: '$_id.RoomId',
+            points: {
+              $push: {
+                timestamp: '$_id.timestamp',
+                temperature: '$temperature'
+              }
+            }
+          }
+        }
+      ];
+        ReactiveAggregate(this, temperature_data, new_pipeline);
     });
 }
 
