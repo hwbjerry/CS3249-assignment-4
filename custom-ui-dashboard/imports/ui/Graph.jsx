@@ -11,19 +11,19 @@ class Graph extends React.Component {
     constructor(props) {
         super(props);
 
-        // this.dateTimeRangeHandler = this.dateTimeRangeHandler.bind(this);
+        //These functions binds component updates from the child
         this.updateDateTimeRange = this.updateDateTimeRange.bind(this);
         this.updateSampleRate = this.updateSampleRate.bind(this);
         this.updateSampleRateMax = this.updateSampleRateMax.bind(this);
     }
 
+    //This function maps the dataset to the graph UI format
 	mapDataset(dataset){
     	var room_datapoints = [[],[],[],[],[],[],[]];
 		const visibility = this.props.visibility;
 
     	dataset.forEach(room => {
 			room.points.forEach(point => {
-				// console.log(room_datapoints[roomId]);
 				if(visibility[room._id]) {
 					room_datapoints[room._id].push({
 						"y": point.temperature,
@@ -37,19 +37,8 @@ class Graph extends React.Component {
     	return room_datapoints;
 	}
 
-	// dateTimeRangeHandler(start, end) {
-    //     const {dateTimeRangeHandler} =this.props;
-    //     if (start && end) {
-    //       dateTimeRangeHandler(new TimeRange(start, end));
-    //     }
-    // }
-
+	//Callback Functions (to retrieve child modifications)
     updateDateTimeRange(dateTimeRange) {
-        // const { durationHandler } = this.props;
-        // durationHandler(dateTimeRange.duration());
-        // const { dateTimeRangeHandler } = this.props;
-        // console.log(dateTimeRange);
-        // dateTimeRangeHandler(dateTimeRange);
         const { dateTimeRangeHandler } = this.props;
         dateTimeRangeHandler(dateTimeRange);
         this.updateMaxSamplePoints();
@@ -65,17 +54,12 @@ class Graph extends React.Component {
         sampleRateMaxHandler(sampleRateMax);
     }
 
-
     updateMaxSamplePoints = () => {
         //select from bucket generated based on room selected
-        // for now make max 2555
         const { dateTimeRange } = this.props;
-        // const x = 2555; // use total.duration()
         const y = (Math.round( dateTimeRange.duration() / totalTimeRange.duration() * sampleRange[1]));
         const x = (y < 0) ? 2 : Math.round( dateTimeRange.duration()/totalTimeRange.duration() * sampleRange[1]);
         this.updateSampleRateMax(x);
-        // console.log(this.state.maxRange);
-        // console.log(this.state.currentRange);
 
         if (x < this.props.sampleRate) {
             this.updateSampleRate(x);
@@ -83,18 +67,17 @@ class Graph extends React.Component {
     }
 
     render() {
+    	//This resolves the issue with regards canvasjs rangeChange callback function
     	var that = this;
     	const { visibility } = this.props;
 		const chart_datapoints = this.mapDataset(this.props.dataset);
         const options = {
-			theme: "light1", // "light1", "dark1", "dark2"
-			// rangeChanged: function (e) {
-            //     if(e.trigger === "reset") {
-            //         that.updateDateTimeRange(new TimeRange(new Date("2013-10-02T05:00:00"), new Date("2013-12-03T15:30:00")));
-            //     } else {
-            //         that.updateDateTimeRange(new TimeRange(new Date(e.axisX[0].viewportMinimum),new Date(e.axisX[0].viewportMaximum)));
-            //     }
-            // },
+			theme: "light1",
+			rangeChanged: function (e) {
+                if(e.trigger === "reset") {
+                    that.updateDateTimeRange(totalTimeRange);
+                }
+            },
 			zoomEnabled: true,
 			animationEnabled: true,
 			title: {
@@ -105,20 +88,12 @@ class Graph extends React.Component {
                 fontSize: 50,
 			},
 			legend: {
-				horizontalAlign: "left", // "center" , "right"
-			   verticalAlign: "center",  // "top" , "bottom"
+				horizontalAlign: "centre",
+			   verticalAlign: "bottom",
 			   fontSize: 15
 			},
 			tooltip: {
 				shared: true,
-				// contentFormatter: function (e) {
-				// 	var content = " ";
-				// 	for (var i = 0; i < e.entries.length; i++) {
-				// 		content += e.entries[i].dataSeries.name + " " + "<strong>" + e.entries[i].dataPoint.y + "°C</strong>";
-				// 		content += "<br/>";
-				// 	}
-				// 	return content;
-				// },
 				content:"{name}: Timestamp: {x}, Temperature: {y}°C"
 			},
 
@@ -202,9 +177,8 @@ class Graph extends React.Component {
 
         return (
             <div>
-                <CanvasJSChart className={'chartContainer'}
-							   options = {options}
-				 onRef={ref => this.chart = ref}
+                <CanvasJSChart className={'chartContainer'} options = {options}
+							   onRef={ref => this.chart = ref}
 				/>
             </div>
         );
@@ -213,7 +187,7 @@ class Graph extends React.Component {
     componentDidMount(){
         const chart = this.chart;
         chart.render();
-		/*
+		/* For scroll and Wheel no time to complete
         document.getElementsByClassName("chartContainer")[0].addEventListener("wheel", function(e){
 		  e.preventDefault();
 
@@ -268,10 +242,4 @@ Graph.propTypes = {
     sampleRate: PropTypes.number.isRequired,
     duration: PropTypes.number.isRequired,
     dateTimeRange: PropTypes.instanceOf(TimeRange).isRequired,
-
-    //Handlers for active data
-    // sampleRateHandler: PropTypes.func.isRequired,
-    // sampleRateMaxHandler: PropTypes.func.isRequired,
-    // durationHandler: PropTypes.func.isRequired,
-    // dateTimeRangeHandler: PropTypes.func.isRequired
 }

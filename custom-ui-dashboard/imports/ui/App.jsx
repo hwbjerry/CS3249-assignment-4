@@ -33,6 +33,7 @@ export class App extends React.Component {
             dateTimeRange: new TimeRange(totalTimeRange.begin(), totalTimeRange.end())
         };
 
+        //These functions binds component updates from the child
         this.updateDuration = debounce(this.updateDuration, 50).bind(this);
         this.updateSampleRate = debounce(this.updateSampleRate, 50).bind(this);
         this.updateSampleRateMax = debounce(this.updateSampleRateMax, 50).bind(this);
@@ -41,7 +42,7 @@ export class App extends React.Component {
     }
 
 
-    //Control Panel Functions
+    //Callback Functions (to retrieve child modifications)
     updateDuration(newDuration) {
         const { duration } = this.state;
         if (newDuration !== duration) this.setState({duration: newDuration});
@@ -58,7 +59,6 @@ export class App extends React.Component {
     }
 
     updateDateTimeRange(newDateTimeRange) {
-        // console.log(newDateTimeRange);
         const { dateTimeRange } = this.state;
         if(newDateTimeRange !== dateTimeRange) this.setState({dateTimeRange: newDateTimeRange});
     }
@@ -66,8 +66,7 @@ export class App extends React.Component {
     updateVisible(newVisible) {
        const {visible} = this.state;
        this.setState({visible: newVisible});
-       console.log(newVisible);
-       console.log(visible);
+
        const { sampleRate, duration } = this.state;
        this.setState({sampleRate:sampleRate});
        this.setState({duration: duration});

@@ -1,18 +1,18 @@
 import React from 'react';
-import {sampleRange, timeRange, totalTimeRange, rooms} from '../api/Model/constant';
-import GraphControlPanel from "./GraphControlPanel";
+import {sampleRange, rooms} from '../api/Model/constant';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-daterangepicker/daterangepicker.css';
-import { debounce } from 'underscore';
 import {TimeRange} from "pondjs";
+
+import { withTracker } from 'meteor/react-meteor-data';
+import temperature_data from "../api/collections/TemperatureModel";
+import * as PropTypes from "prop-types";
+
+import Loader from "./Loader";
 import FloorPlan from './FloorPlan'
 import Graph from "./Graph";
-import { withTracker } from 'meteor/react-meteor-data';
-import LoadingScreen from 'react-loading-screen';
-import temperature_data from "../api/collections/TemperatureModel";
-// import * as Session from "fibers";
-import * as PropTypes from "prop-types";
-import Loader from "./Loader";
+import GraphControlPanel from "./GraphControlPanel";
+
 
 
 class AppModel extends React.Component {
@@ -20,9 +20,7 @@ class AppModel extends React.Component {
         super(props);
         /**
          * @description: Sets the state of the client application
-         * @type { , , }}
          * @type {visible: boolean[]} visible: Represents state of room button visible when true. Otherwise, false.
-         * @type {date: [Date, Date]} date: represents start and end datetime
          * @type {duration} duration: The duration of the time range in milliseconds for date.
          * @type {range: [number, number]} range: Represents min and max of slider range
          * @type {sampleRate} sampleRate: Represents user selected rate.
@@ -31,6 +29,7 @@ class AppModel extends React.Component {
             visible: [true, true, true, true, true, true, true],
         };
 
+        //These functions binds component updates from the child
         this.updateDuration = this.updateDuration.bind(this);
         this.updateSampleRate = this.updateSampleRate.bind(this);
         this.updateSampleRateMax = this.updateSampleRateMax.bind(this);
@@ -39,7 +38,7 @@ class AppModel extends React.Component {
     }
 
 
-    //Control Panel Functions
+    //Callback Functions (to retrieve child modifications)
     updateDuration(duration) {
         const { durationHandler } = this.props;
         durationHandler(duration);
@@ -62,23 +61,18 @@ class AppModel extends React.Component {
     }
     updateVisible(e) {
         const visible = this.state.visible;
-       visible[e] = !this.state.visible[e];
+        visible[e] = !this.state.visible[e];
 
-       const { visibleHandler } = this.props;
-       visibleHandler(visible)
-       this.setState({visible: visible,});
-        // console.log("did you");
-        // console.log(visible);
-        // const { visibleHandler } = this.props;
-        // visibleHandler(visible);
+        const { visibleHandler } = this.props;
+        visibleHandler(visible)
+        this.setState({visible: visible,});
     }
 
 
     render() {
-        // console.log(this.props.rawData);
+        //If data retriever is in progress UI will display loading view. Otherwise, UI view.
         if(this.props.loading) {
             return (
-
                 <div>
                     <Loader></Loader>
                 </div>
@@ -89,14 +83,13 @@ class AppModel extends React.Component {
             const {visible, dateTimeRange} = this.props;
             return (
                 <div>
-                    {/*<h1>Hello</h1>*/}
                     <div className="container">
-                    <GraphControlPanel sampleRateMin={sampleRange[0]} sampleRateMax={sampleRateMax}
-                                       sampleRate={sampleRate} duration={duration}
-                                       dateTimeRange={dateTimeRange} dateTimeRangeHandler={this.updateDateTimeRange}
-                                       durationHandler={this.updateDuration}
-                                       sampleRateHandler={this.updateSampleRate} sampleRateMaxHandler={this.updateSampleRateMax}
-                    />
+                        <GraphControlPanel sampleRateMin={sampleRange[0]} sampleRateMax={sampleRateMax}
+                                           sampleRate={sampleRate} duration={duration}
+                                           dateTimeRange={dateTimeRange} dateTimeRangeHandler={this.updateDateTimeRange}
+                                           durationHandler={this.updateDuration}
+                                           sampleRateHandler={this.updateSampleRate} sampleRateMaxHandler={this.updateSampleRateMax}
+                        />
                     </div>
                     <div>
                         <Graph visibility={visible} dataset={rawData}
@@ -104,8 +97,7 @@ class AppModel extends React.Component {
                                sampleRateMax={sampleRateMax}
                                sampleRate={sampleRate} duration={duration}
                                dateTimeRange={dateTimeRange}
-                        >
-                        </Graph>
+                        />
                     </div>
 
                     <div className={"main_floorplan"}>

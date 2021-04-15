@@ -3,6 +3,8 @@ import { css } from "@emotion/react";
 import PacmanLoader from "react-spinners/PacmanLoader";
 import style from '../../client/main.css';
 
+//Ref: https://www.davidhu.io/react-spinners/
+
 // Can be a string as well. Need to ensure each key-value pair ends with ;
 const override = css`
   display: block;

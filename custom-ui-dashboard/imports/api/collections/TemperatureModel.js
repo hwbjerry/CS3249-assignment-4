@@ -25,49 +25,8 @@ if (Meteor.isServer) {
         for(let i = 0; i < 7; i++) {
             if(visible[i]) roomsSelected.push(i);
         }
-        console.log(roomsSelected);
-        console.log(dateTimeRangeBegin);
-        console.log(dateTimeRangeEnd);
-
-        const pipeline = [
-        {
-            $group: {
-              _id: '$_id.timestamp',
-              points: {
-                $push: {
-                  timestamp: '$_id.roomId',
-                  temperature: '$temperature'
-                }
-              }
-            }
-        }
-        ];
-
-        const test_single_datetime_pipeline = [
-          {
-            '$group': {
-              '_id': {
-                'timestamp': '$timestamp'
-              },
-              'points': {
-                '$push': {
-                  'timestamp': '$_id.timestamp',
-                  'temperature': '$temperature'
-                }
-              }
-            }
-          }, {
-            '$match': {
-              '_id.timestamp': {
-                '$gte': new Date(dateTimeRangeBegin),
-                '$lt': new Date(dateTimeRangeEnd)
-              }
-            }
-          }
-        ];
 
         const new_pipeline = [
-            //TODO: match by room visibility if have time
         {
             $match: {
               RoomId: {$in: roomsSelected},

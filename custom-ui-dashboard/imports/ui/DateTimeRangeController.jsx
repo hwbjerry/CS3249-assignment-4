@@ -6,75 +6,70 @@ import {totalTimeRange} from "../api/Model/constant";
 
 
 class DateTimeRangeController extends React.Component {
-  constructor(props) {
-    super(props);
+      constructor(props) {
+        super(props);
 
-    this.dateTimeRangeHandler = this.dateTimeRangeHandler.bind(this);
-  }
+        this.dateTimeRangeHandler = this.dateTimeRangeHandler.bind(this);
+      }
 
     /**
      * Child element unable to pass values back to parent only way is to utilise function and input callback foreach parameter
      * https://www.pluralsight.com/guides/how-to-pass-props-object-from-child-component-to-parent-component
      * Alternatively, create custom class prototype. And bind callback
      */
+
+    //Callback Functions (to retrieve child modifications)
     dateTimeRangeHandler(start, end) {
         const {dateTimeRangeHandler} =this.props;
-        // console.log(start);
-        // console.log(end);
-        // console.log(new TimeRange(start, end));
-        // if (start && end) {
-          dateTimeRangeHandler(new TimeRange(start, end));
-        // }
+        dateTimeRangeHandler(new TimeRange(start, end));
+
     }
 
 
 
-  handleCallBack = (start, end, label) => {
-       // console.log(start);
-       //  console.log(end);
-    this.dateTimeRangeHandler(start, end);
-  }
+    handleCallBack = (start, end, label) => {
+        this.dateTimeRangeHandler(start, end);
+    }
 
-  renderVanillaPicker() {
-    return (
-      <div>
-        <div>
-            Select Range: {" "}
+      renderVanillaPicker() {
+        return (
+          <div>
+            <div>
+                Select Range: {" "}
 
-            <DateRangePicker
-                initialSettings={{
-                    timePicker: true,
-                    startDate: this.props.dateTimeRange.begin(),
-                    endDate: this.props.dateTimeRange.end(),
-                    minDate: totalTimeRange.begin(),
-                    maxDate: totalTimeRange.end(),
-                    locale: {
-                        format: 'DD/MM/YYYY hh:mm A',
-                    },
-                }}
-                onCallback={this.handleCallBack}
-            >
-                <input type="text" className="form-control col-5"/>
-            </DateRangePicker>
-        </div>
-      </div>
-    );
-  }
+                <DateRangePicker
+                    initialSettings={{
+                        timePicker: true,
+                        startDate: this.props.dateTimeRange.begin(),
+                        endDate: this.props.dateTimeRange.end(),
+                        minDate: totalTimeRange.begin(),
+                        maxDate: totalTimeRange.end(),
+                        locale: {
+                            format: 'DD/MM/YYYY hh:mm A',
+                        },
+                    }}
+                    onCallback={this.handleCallBack}
+                >
+                    <input type="text" className="form-control col-5"/>
+                </DateRangePicker>
+            </div>
+          </div>
+        );
+      }
 
-  render() {
-
-    let pickersRender = (
-      <div>
-        {this.renderVanillaPicker()}
-      </div>
-    );
-    let pickers = pickersRender;
-    return (
-      <div className="container">
-        {pickers}
-      </div>
-    );
-  }
+    render() {
+        let pickersRender = (
+          <div>
+            {this.renderVanillaPicker()}
+          </div>
+        );
+        let pickers = pickersRender;
+        return (
+          <div className="container">
+            {pickers}
+          </div>
+        );
+    }
 }
 
 DateTimeRangeController.propTypes = {

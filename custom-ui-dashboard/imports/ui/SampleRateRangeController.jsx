@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import {sampleRange} from "../api/Model/constant";
-
 
 class SampleRateRangeController extends React.Component {
     constructor(props) {
@@ -16,11 +14,10 @@ class SampleRateRangeController extends React.Component {
         this.sampleRateUpdate = this.sampleRateUpdate.bind(this);
     }
 
-    //When change happens on slider. Need to show responsiveness.
-
-      sampleRateUpdate(rate) {
+      //When change happens on slider. Need to show responsiveness.
+    sampleRateUpdate(rate) {
         this.setState({sampleRate: parseInt(rate)});
-      }
+    }
 
     //Only when mouse up so won't constantly be logged when user drags slider
     sampleRateMouseUpHandler() {

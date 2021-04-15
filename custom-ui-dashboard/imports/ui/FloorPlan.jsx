@@ -71,20 +71,18 @@ class FloorPlan extends React.Component {
 
     updateVisible(e) {
         const {visibleHandler, visible} = this.props;
-        var temp = visible;
-        temp[e] = !visible[e];
-        visibleHandler(temp);
+        visible[e] = !visible[e];
+        visibleHandler(visible);
 
-        this.setState({visibility: temp});
+        this.setState({visibility: visible});
     }
 
     render() {
         const {dataset} = this.props;
-        console.log(dataset);
-
         const avg_of_room = this.getAvg(this.props.dataset);
 
         return (
+                //This replicates the floor plan with each room acting as toggle buttons that changes colour depend its temperature
                 <svg
                 viewBox = "0 0 900 700"
                 xmlns="http://www.w3.org/2000/svg"

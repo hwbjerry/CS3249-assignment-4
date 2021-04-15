@@ -11,11 +11,13 @@ class GraphControlPanel extends React.Component {
     constructor(props) {
         super(props);
 
+        //These functions binds component updates from the child
         this.updateDateTimeRange = this.updateDateTimeRange.bind(this);
         this.updateSampleRate = this.updateSampleRate.bind(this);
         this.updateSampleRateMax = this.updateSampleRateMax.bind(this);
     }
 
+    //Callback Functions (to retrieve child modifications)
     updateDateTimeRange(dateTimeRange) {
         const { durationHandler } = this.props;
         durationHandler(dateTimeRange.duration());
