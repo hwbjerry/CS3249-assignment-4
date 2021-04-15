@@ -12,7 +12,7 @@ import LoadingScreen from 'react-loading-screen';
 import temperature_data from "../api/collections/TemperatureModel";
 // import * as Session from "fibers";
 import * as PropTypes from "prop-types";
-import AwesomeComponent from "./AwesomeComponent";
+import Loader from "./Loader";
 
 
 class AppModel extends React.Component {
@@ -80,7 +80,7 @@ class AppModel extends React.Component {
             return (
 
                 <div>
-                    <AwesomeComponent></AwesomeComponent>
+                    <Loader></Loader>
                 </div>
             );
         }

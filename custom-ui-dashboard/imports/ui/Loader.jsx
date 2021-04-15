@@ -10,7 +10,7 @@ const override = css`
   border-color: red;
 `;
 
-class AwesomeComponent extends React.Component {
+class Loader extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,4 +29,4 @@ class AwesomeComponent extends React.Component {
   }
 }
 
-export default AwesomeComponent;
+export default Loader;
