@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import SampleRateRangeController from "./SampleRateRangeController";
+import {bitToDecimal} from "../api/Model/constant";
 
 class FloorPlan extends React.Component {
     constructor(props) {
@@ -13,10 +13,22 @@ class FloorPlan extends React.Component {
         this.updateVisible = this.updateVisible.bind(this);
     }
 
+    mapVisibility(visible) {
+		var roomsSelected = [false, false, false, false, false, false, false];
+        var visibilityChecker = visible;
+        for(let i = 0; i < 7; i++) {
+            if(visibilityChecker >= bitToDecimal[i]) {
+                roomsSelected[i] = true;
+                visibilityChecker -= bitToDecimal[i];
+            }
+        }
+        return roomsSelected;
+	}
+
     getAvg(dataset) {
         var room_datapoints = [0, 0, 0, 0, 0, 0, 0];
         var room_counter = [0, 0, 0, 0, 0, 0, 0];
-		const visible = this.props.visible;
+		const visible = this.mapVisibility(this.props.visible);
 
         dataset.forEach(room => {
             if(visible[room._id]) {
@@ -35,7 +47,7 @@ class FloorPlan extends React.Component {
 
     changeColour(avg, room_id) {
         // When user clicks on the room and does not want the line graph to be shown, room colour changes to white too
-        const {visible} = this.props;
+        const visible = this.mapVisibility(this.props.visible);
         const {visibility} = this.state;
         let colour;
         if (visible[room_id] === false || visibility[room_id] === false)  {
@@ -68,13 +80,29 @@ class FloorPlan extends React.Component {
         return `rgba(${red.toString()}, ${green.toString()}, ${blue.toString()}, ${alpha.toString()})`;
     }
 
+    mapVisibilityToDecimal(bits) {
+        var count = 0;
+        for (let i = 0; i < 7; i++) {
+            if (bits[i] === true) count += bitToDecimal[i];
+        }
+        return count;
+    }
+
 
     updateVisible(e) {
         const {visibleHandler, visible} = this.props;
-        visible[e] = !visible[e];
-        visibleHandler(visible);
+        //Convert to array and toggle room
+        const rooms_visibility = this.mapVisibility(visible);
+        rooms_visibility[e] = !rooms_visibility[e];
 
-        this.setState({visibility: visible});
+        console.log(this.mapVisibilityToDecimal(rooms_visibility));
+        console.log(rooms_visibility);
+
+        //Pass back updated list in decimal
+        visibleHandler(this.mapVisibilityToDecimal(rooms_visibility));
+
+        //Update 'state' in array (for responsiveness)
+        this.setState({visibility: rooms_visibility});
     }
 
     render() {
@@ -187,7 +215,7 @@ class FloorPlan extends React.Component {
 export default FloorPlan;
 
 FloorPlan.propTypes = {
-    visible: PropTypes.arrayOf(PropTypes.bool.isRequired).isRequired,
+    visible: PropTypes.number.isRequired,
     visibleHandler: PropTypes.func.isRequired,
     dataset: PropTypes.arrayOf(
         PropTypes.shape({

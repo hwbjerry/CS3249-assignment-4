@@ -25,9 +25,9 @@ class AppModel extends React.Component {
          * @type {range: [number, number]} range: Represents min and max of slider range
          * @type {sampleRate} sampleRate: Represents user selected rate.
          */
-        this.state = {
-            visible: [true, true, true, true, true, true, true],
-        };
+        // this.state = {
+        //     visible: [true, true, true, true, true, true, true],
+        // };
 
         //These functions binds component updates from the child
         this.updateDuration = this.updateDuration.bind(this);
@@ -60,12 +60,11 @@ class AppModel extends React.Component {
         dateTimeRangeHandler(dateTimeRange);
     }
     updateVisible(e) {
-        const visible = this.state.visible;
-        visible[e] = !this.state.visible[e];
+        // const visible = this.state.visible;
+        // visible[e] = !this.state.visible[e];
 
         const { visibleHandler } = this.props;
-        visibleHandler(visible)
-        this.setState({visible: visible,});
+        visibleHandler(e);
     }
 
 
@@ -114,10 +113,9 @@ class AppModel extends React.Component {
 }
 
 export default withTracker(({sampleRate, sampleRateMax, duration, visible, dateTimeRange}) => {
-    // console.log(dateTimeRange);
     const start = dateTimeRange.begin().toString();
     const end = dateTimeRange.end().toString();
-    // console.log(start);
+
 
     const handle = Meteor.subscribe('temperature_data', {
         sampleRate: sampleRate,
@@ -128,6 +126,7 @@ export default withTracker(({sampleRate, sampleRateMax, duration, visible, dateT
     });
     // if(handle.ready()) {
     const rawData = temperature_data.find({}).fetch();
+    // const loading = false;
     const loading = rawData.length === 0;
     // }
     console.log(loading);
@@ -162,7 +161,7 @@ AppModel.propTypes = {
     sampleRateMaxHandler: PropTypes.func.isRequired,
     durationHandler: PropTypes.func.isRequired,
 
-    visible: PropTypes.arrayOf(PropTypes.bool.isRequired).isRequired,
+    visible: PropTypes.number.isRequired,
     dateTimeRange: PropTypes.instanceOf(TimeRange).isRequired,
     visibleHandler: PropTypes.func.isRequired,
     dateTimeRangeHandler: PropTypes.func.isRequired

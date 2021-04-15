@@ -25,7 +25,7 @@ class Loader extends React.Component {
     return (
       <div>
         <h3 className={style.awesomeComponent}>Loading temperature ...</h3>
-        <PacmanLoader css={override} size={30} margin={2} color={"#36D7B7"} loading={this.state.loading} speedMultiplier={1.5} />
+        <PacmanLoader css={override} size={50} margin={2} color={"#36D7B7"} loading={this.state.loading} speedMultiplier={1.5} />
       </div>
     );
   }

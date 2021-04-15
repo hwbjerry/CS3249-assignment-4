@@ -1,6 +1,6 @@
 import React from 'react';
 // import '@devexpress/dx-react-chart-bootstrap4/dist/dx-react-chart-bootstrap4.css';
-import {sampleRange, timeRange, totalTimeRange} from './../api/Model/constant';
+import {bitToDecimal, sampleRange, timeRange, totalTimeRange} from './../api/Model/constant';
 
 import moment from "moment";
 import {CanvasJSChart} from "canvasjs-react-charts";
@@ -17,10 +17,22 @@ class Graph extends React.Component {
         this.updateSampleRateMax = this.updateSampleRateMax.bind(this);
     }
 
+    mapVisibility(visible) {
+		var roomsSelected = [false, false, false, false, false, false, false];
+        var visibilityChecker = visible;
+        for(let i = 0; i < 7; i++) {
+            if(visibilityChecker >= bitToDecimal[i]) {
+                roomsSelected[i] = true;
+                visibilityChecker -= bitToDecimal[i];
+            }
+        }
+        return roomsSelected;
+	}
+
     //This function maps the dataset to the graph UI format
 	mapDataset(dataset){
     	var room_datapoints = [[],[],[],[],[],[],[]];
-		const visibility = this.props.visibility;
+		const visibility = this.mapVisibility(this.props.visibility);
 
     	dataset.forEach(room => {
 			room.points.forEach(point => {
@@ -69,7 +81,7 @@ class Graph extends React.Component {
     render() {
     	//This resolves the issue with regards canvasjs rangeChange callback function
     	var that = this;
-    	const { visibility } = this.props;
+    	const visibility = this.mapVisibility(this.props.visibility);
 		const chart_datapoints = this.mapDataset(this.props.dataset);
         const options = {
 			theme: "light1",
@@ -235,7 +247,7 @@ Graph.propTypes = {
           ).isRequired
         })
     ),
-	visibility: PropTypes.arrayOf(PropTypes.bool.isRequired).isRequired,
+	visibility: PropTypes.number.isRequired,
 
 	sampleRateMin: PropTypes.number.isRequired,
     sampleRateMax: PropTypes.number.isRequired,

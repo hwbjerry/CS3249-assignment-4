@@ -3,7 +3,7 @@ import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 // import { ReactiveAggregate } from 'meteor/tunguska:reactive-aggregate';
 import { ReactiveAggregate } from 'meteor/jcbernack:reactive-aggregate';
-import { totalTimeRange } from '../Model/constant';
+import {bitToDecimal, totalTimeRange} from '../Model/constant';
 import {schema} from '../Model/schema';
 
 
@@ -22,8 +22,12 @@ if (Meteor.isServer) {
          * Ref: https://docs.mongodb.com/manual/reference/operator/aggregation/bucketAuto/
          */
         var roomsSelected = [];
+        var visibilityChecker = visible;
         for(let i = 0; i < 7; i++) {
-            if(visible[i]) roomsSelected.push(i);
+            if(visibilityChecker >= bitToDecimal[i]) {
+                roomsSelected.push(i);
+                visibilityChecker -= bitToDecimal[i];
+            }
         }
 
         const new_pipeline = [
