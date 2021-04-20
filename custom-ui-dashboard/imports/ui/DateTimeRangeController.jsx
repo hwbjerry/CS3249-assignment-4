@@ -34,8 +34,7 @@ class DateTimeRangeController extends React.Component {
       renderVanillaPicker() {
         return (
           <div>
-            <div>
-                <span>Select Range:
+                <span><b>Select Range: {"  "}</b></span>
 
                 <DateRangePicker
                     initialSettings={{
@@ -50,9 +49,8 @@ class DateTimeRangeController extends React.Component {
                     }}
                     onCallback={this.handleCallBack}
                 >
-                    <input type="text" className="form-control col-5"/>
-                </DateRangePicker></span>
-            </div>
+                    <input type="text" className="form-control col-2" style={{display: "inline-block"}}/>
+                </DateRangePicker>
           </div>
         );
       }
@@ -65,7 +63,7 @@ class DateTimeRangeController extends React.Component {
         );
         let pickers = pickersRender;
         return (
-          <div className="container">
+          <div >
             {pickers}
           </div>
         );

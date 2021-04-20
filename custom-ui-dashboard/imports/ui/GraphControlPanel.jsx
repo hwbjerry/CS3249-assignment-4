@@ -56,21 +56,17 @@ class GraphControlPanel extends React.Component {
             const { sampleRateMin, sampleRateMax, sampleRate} = this.props;
             const {dateTimeRange} = this.props;
           return (
-            <div>
-                <div className="container">
-                    <DateTimeRangeController
-                        dateTimeRange={dateTimeRange}
-                        dateTimeRangeHandler={this.updateDateTimeRange}
-                    />
-                </div>
-                <div>
-                    <SampleRateRangeController
-                        sampleRateMin={sampleRateMin}
-                        sampleRateMax={sampleRateMax}
-                        sampleRate={sampleRate}
-                        sampleRateHandler={this.updateSampleRate}
-                    />
-                </div>
+            <div className="controlPanelContainer">
+                <DateTimeRangeController
+                    dateTimeRange={dateTimeRange}
+                    dateTimeRangeHandler={this.updateDateTimeRange}
+                />
+                 <SampleRateRangeController
+                    sampleRateMin={sampleRateMin}
+                    sampleRateMax={sampleRateMax}
+                    sampleRate={sampleRate}
+                    sampleRateHandler={this.updateSampleRate}
+                />
             </div>
         )
     }

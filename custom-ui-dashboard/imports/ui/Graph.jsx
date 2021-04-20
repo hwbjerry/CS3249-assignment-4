@@ -84,7 +84,7 @@ class Graph extends React.Component {
     	const visibility = this.mapVisibility(this.props.visibility);
 		const chart_datapoints = this.mapDataset(this.props.dataset);
         const options = {
-        	height: 600,
+        	height: 650,
 			theme: "light1",
 			rangeChanged: function (e) {
                 if(e.trigger === "reset") {
@@ -102,7 +102,7 @@ class Graph extends React.Component {
 			},
 			legend: {
 				horizontalAlign: "centre",
-			   verticalAlign: "bottom",
+			   verticalAlign: "top",
 			   fontSize: 15
 			},
 			tooltip: {

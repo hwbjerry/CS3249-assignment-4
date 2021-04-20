@@ -83,30 +83,23 @@ class AppModel extends React.Component {
             const {visible, dateTimeRange} = this.props;
             return (
                 <div className="app_view">
-                    <div className="controlPanelContainer">
-                        <GraphControlPanel sampleRateMin={sampleRange[0]} sampleRateMax={sampleRateMax}
-                                           sampleRate={sampleRate} duration={duration}
-                                           dateTimeRange={dateTimeRange} dateTimeRangeHandler={this.updateDateTimeRange}
-                                           durationHandler={this.updateDuration}
-                                           sampleRateHandler={this.updateSampleRate} sampleRateMaxHandler={this.updateSampleRateMax}
-                        />
-                    </div>
-                    <div>
-                        <Graph visibility={visible} dataset={rawData}
-                                sampleRateMin={sampleRange[0]}
-                               sampleRateMax={sampleRateMax}
-                               sampleRate={sampleRate} duration={duration}
-                               dateTimeRange={dateTimeRange}
-                        />
-                    </div>
-
-                    <div className="svgContainer">
-                        <FloorPlan
-                            visible={visible} dataset={rawData}
-                            visibleHandler={this.updateVisible}
-                        />
-                    </div>
-
+                    <GraphControlPanel sampleRateMin={sampleRange[0]} sampleRateMax={sampleRateMax}
+                                       sampleRate={sampleRate} duration={duration}
+                                       dateTimeRange={dateTimeRange} dateTimeRangeHandler={this.updateDateTimeRange}
+                                       durationHandler={this.updateDuration}
+                                       sampleRateHandler={this.updateSampleRate} sampleRateMaxHandler={this.updateSampleRateMax}
+                    />
+                    <Graph visibility={visible} dataset={rawData}
+                            sampleRateMin={sampleRange[0]}
+                           sampleRateMax={sampleRateMax}
+                           sampleRate={sampleRate} duration={duration}
+                           dateTimeRange={dateTimeRange}
+                    />
+                    <br></br>
+                    <FloorPlan
+                        visible={visible} dataset={rawData}
+                        visibleHandler={this.updateVisible}
+                    />
                 </div>
             )
         }

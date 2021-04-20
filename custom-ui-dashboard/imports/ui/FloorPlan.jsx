@@ -116,19 +116,19 @@ class FloorPlan extends React.Component {
                 <svg
                 viewBox = "0 0 900 700"
                 xmlns="http://www.w3.org/2000/svg"
-                style={{width: "30%", height: "auto",  margin: "auto",display: "block"}}>
+                style={{width: "30%", height: "auto",  margin: "auto",display: "block", padding: "10px"}}>
                     <g>
                         <rect id="Rectangle" stroke="#000000" strokeWidth="2" x="1" y="1" width="899" height="650" fill="white"></rect>
                         <text x="10" y="20" fill="red"> Floor Plan</text>
 
 
                         <rect id="Room 0" stroke="#000000" strokeWidth="2" x="15" y="39" width="300" height="200" fill={this.changeColour(avg_of_room[0], 0)} onClick={() => this.updateVisible(0)}></rect>
-                        <rect id="Room 1" stroke="#000000" strokeWidth="2" x="15" y="396" width="150" height="255" fill={this.changeColour(avg_of_room[1], 1)} onClick={() => this.updateVisible(1)}></rect>
-                        <rect id="Room 2" stroke="#000000" strokeWidth="2" x="165" y="396" width="150" height="255" fill={this.changeColour(avg_of_room[2], 2)} onClick={() => this.updateVisible(2)}></rect>
-                        <rect id="Room 3" stroke="#000000" strokeWidth="2" x="315" y="396" width="150" height="255" fill={this.changeColour(avg_of_room[3], 3)} onClick={() => this.updateVisible(3)}></rect>
-                        <rect id="Room 4" stroke="#000000" strokeWidth="2" x="465" y="396" width="150" height="255" fill={this.changeColour(avg_of_room[4], 4)} onClick={() => this.updateVisible(4)}></rect>
-                        <rect id="Room 5" stroke="#000000" strokeWidth="2" x="615" y="396" width="150" height="255" fill={this.changeColour(avg_of_room[5], 5)} onClick={() => this.updateVisible(5)}></rect>
-                        <rect id="Room 6" stroke="#000000" strokeWidth="2" x="765" y="396" width="150" height="255" fill={this.changeColour(avg_of_room[6], 6)} onClick={() => this.updateVisible(6)}></rect>
+                        <rect id="Room 1" stroke="#000000" strokeWidth="2" x="6" y="396" width="148" height="255" fill={this.changeColour(avg_of_room[1], 1)} onClick={() => this.updateVisible(1)}></rect>
+                        <rect id="Room 2" stroke="#000000" strokeWidth="2" x="154" y="396" width="148" height="255" fill={this.changeColour(avg_of_room[2], 2)} onClick={() => this.updateVisible(2)}></rect>
+                        <rect id="Room 3" stroke="#000000" strokeWidth="2" x="302" y="396" width="148" height="255" fill={this.changeColour(avg_of_room[3], 3)} onClick={() => this.updateVisible(3)}></rect>
+                        <rect id="Room 4" stroke="#000000" strokeWidth="2" x="450" y="396" width="148" height="255" fill={this.changeColour(avg_of_room[4], 4)} onClick={() => this.updateVisible(4)}></rect>
+                        <rect id="Room 5" stroke="#000000" strokeWidth="2" x="598" y="396" width="148" height="255" fill={this.changeColour(avg_of_room[5], 5)} onClick={() => this.updateVisible(5)}></rect>
+                        <rect id="Room 6" stroke="#000000" strokeWidth="2" x="746" y="396" width="148" height="255" fill={this.changeColour(avg_of_room[6], 6)} onClick={() => this.updateVisible(6)}></rect>
 
                         <text id="R0" fontWeight="bold" fill="black" x="115" y="200" fontSize="20px"> Room 0</text>
                         <text id="R1" fontWeight="bold" fill="black" x="75" y="620" fontSize="20px">R1</text>
@@ -154,8 +154,8 @@ class FloorPlan extends React.Component {
                         <line x1="480" y1="250" x2="480" y2="133.5" stroke="#000000" strokeWidth="5"></line>
                         <path d="M480,250 L490,250" id="Line" stroke="#000000" strokeWidth="5" strokeLinecap="square"></path>
                         <rect stroke="#000000" strokeWidth="3" x="675" y="128" width="40" height="10" fill="white"></rect>
-                        <rect stroke="#000000" strokeWidth="3" x="862" y="128" width="40" height="10" fill="white"></rect>
-                        <rect stroke="#000000" strokeWidth="3" x="630" y="298" width="277" height="10" fill="white"></rect>
+                        <rect stroke="#000000" strokeWidth="3" x="862" y="128" width="35" height="10" fill="white"></rect>
+                        <rect stroke="#000000" strokeWidth="3" x="630" y="298" width="267" height="10" fill="white"></rect>
                         <path d="M595,305 L629,305" id="Line" stroke="#000000" strokeWidth="5" strokeLinecap="square"></path>
                         <line x1="594" y1="306" x2="594" y2="295" stroke="#000000" strokeWidth="5"></line>
                         <g>
@@ -168,28 +168,28 @@ class FloorPlan extends React.Component {
                             <path d="M327,148 L376,148" id="Line" stroke="#000000" strokeWidth="2" strokeLinecap="square"></path>
                         </g>
                         <g>
-                            <path fill="none" stroke="#000000" strokeWidth="2" d="M160,445 a50,50 0 0,1 -50,-50" />
-                            <line x1="161" y1="395" x2="161" y2="446" stroke="#000000" strokeWidth="2"></line>
+                            <path fill="none" stroke="#000000" strokeWidth="2" d="M151,445 a50,50 0 0,1 -50,-50" />
+                            <line x1="150" y1="395" x2="150" y2="446" stroke="#000000" strokeWidth="2"></line>
                         </g>
                         <g>
-                            <path fill="none" stroke="#000000" strokeWidth="2" d="M310,445 a50,50 0 0,1 -50,-50" />
-                            <line x1="311" y1="395" x2="311" y2="446" stroke="#000000" strokeWidth="2"></line>
+                            <path fill="none" stroke="#000000" strokeWidth="2" d="M298,445 a50,50 0 0,1 -50,-50" />
+                            <line x1="298" y1="395" x2="298" y2="446" stroke="#000000" strokeWidth="2"></line>
                         </g>
                         <g>
-                            <path fill="none" stroke="#000000" strokeWidth="2" d="M368.5,395 a50,50 0 0,1 -50,50" />
-                            <line x1="319.5" y1="395" x2="319.5" y2="446" stroke="#000000" strokeWidth="2"></line>
+                            <path fill="none" stroke="#000000" strokeWidth="2" d="M355,395 a50,50 0 0,1 -50,50" />
+                            <line x1="306" y1="395" x2="306" y2="446" stroke="#000000" strokeWidth="2"></line>
                         </g>
                         <g>
-                            <path fill="none" stroke="#000000" strokeWidth="2" d="M610,445 a50,50 0 0,1 -50,-50" />
-                            <line x1="611" y1="395" x2="611" y2="446" stroke="#000000" strokeWidth="2"></line>
+                            <path fill="none" stroke="#000000" strokeWidth="2" d="M594,445 a50,50 0 0,1 -50,-50" />
+                            <line x1="594" y1="395" x2="594" y2="446" stroke="#000000" strokeWidth="2"></line>
                         </g>
                         <g>
-                            <path fill="none" stroke="#000000" strokeWidth="2" d="M760,445 a50,50 0 0,1 -50,-50" />
-                            <line x1="761" y1="395" x2="761" y2="446" stroke="#000000" strokeWidth="2"></line>
+                            <path fill="none" stroke="#000000" strokeWidth="2" d="M742,445 a50,50 0 0,1 -50,-50" />
+                            <line x1="742" y1="395" x2="742" y2="446" stroke="#000000" strokeWidth="2"></line>
                         </g>
                         <g>
-                            <path fill="none" stroke="#000000" strokeWidth="2" d="M818.5,395 a50,50 0 0,1 -50,50" />
-                            <line x1="769.5" y1="395" x2="769.5" y2="446" stroke="#000000" strokeWidth="2"></line>
+                            <path fill="none" stroke="#000000" strokeWidth="2" d="M800.5,395 a50,50 0 0,1 -50,50" />
+                            <line x1="750" y1="395" x2="750" y2="446" stroke="#000000" strokeWidth="2"></line>
                         </g>
                         <g>
                             <path fill="none" stroke="#000000" strokeWidth="2" d="M78,310 a20,20 0 0,1 -20,20" />

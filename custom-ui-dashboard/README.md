@@ -1,5 +1,5 @@
 # Custom-ui-dashboard
-
+![UI](/imports/img/UI.png)
 # Getting started
 
 1. Clone this repository. 
@@ -115,3 +115,7 @@
    
    The collection ``temperature_data`` has successful been dropped when shell reflects ``true``.
    
+
+## Developers
+Ho Wei Bin, Jerry ![link](https://github.com/hwbjerry)
+Michelle Toh Hui Ping ![link](https://github.com/0325961)

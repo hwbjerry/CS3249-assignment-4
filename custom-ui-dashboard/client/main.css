@@ -40,3 +40,7 @@ body {
 .controlPanelContainer{
 
 }
+
+.dateTimeRangeController {
+    display: inline-block;
+}
