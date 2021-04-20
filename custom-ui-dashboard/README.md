@@ -130,9 +130,9 @@ View of application
          
          b. Modify by selecting the start datetime followed by the end datetime
       
-   ![Interval Selection textbox](/imports/img/DateTimeRange.png)
+   ![Interval Selection textbox](https://github.com/hwbjerry/CS3249-assignment-4/blob/c8fcb00b8147d3b8eeee92f675cb98515d8c564a/custom-ui-dashboard/imports/img/DateTimeRange.png)
 
-   ![Interval Selection dropdown calendar](/imports/img/DateTimeRangeDropdown.png)
+   ![Interval Selection dropdown calendar](https://github.com/hwbjerry/CS3249-assignment-4/blob/c8fcb00b8147d3b8eeee92f675cb98515d8c564a/custom-ui-dashboard/imports/img/DateTimeRangeDropdown.png)
    
 
 
@@ -141,7 +141,7 @@ View of application
       Drag the slider bar to adjust the nubmer of sample points to be reflected on the graph. 
       Current samples will reflect the selected amount of samples to be shown.
    
-   ![Room Selection Image](/imports/img/SampleRange.png)
+   ![Room Selection Image](https://github.com/hwbjerry/CS3249-assignment-4/blob/c8fcb00b8147d3b8eeee92f675cb98515d8c564a/custom-ui-dashboard/imports/img/SampleRange.png)
 
 *Room Selection*
 
@@ -151,7 +151,7 @@ View of application
       
       When ON, the background of room rectangle will turn 'blue'. The graph will reflect the data points for the room in the colour shown in the legend above the graph.
 
-   ![Room Selection Image](/imports/img/FloorPlan.png)
+   ![Room Selection Image](https://github.com/hwbjerry/CS3249-assignment-4/blob/c8fcb00b8147d3b8eeee92f675cb98515d8c564a/custom-ui-dashboard/imports/img/FloorPlan.png)
 
 **Graph zoom and pan**
 
