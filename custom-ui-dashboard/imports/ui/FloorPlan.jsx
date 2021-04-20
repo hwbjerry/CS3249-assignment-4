@@ -114,7 +114,7 @@ class FloorPlan extends React.Component {
                 <svg
                 viewBox = "0 0 900 700"
                 xmlns="http://www.w3.org/2000/svg"
-                style={{width: "930px", height: "600px", marginTop: "150px"}}>
+                style={{width: "930px", height: "600px",  margin: "auto",display: "block"}}>
                     <g>
                         <rect id="Rectangle" stroke="#000000" strokeWidth="2" x="1" y="1" width="930" height="650" fill="white"></rect>
                         <text x="10" y="20" fill="red"> Floor Plan</text>

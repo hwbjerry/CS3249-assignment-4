@@ -81,7 +81,7 @@ class AppModel extends React.Component {
             const {sampleRate, duration, sampleRateMax, rawData} = this.props;
             const {visible, dateTimeRange} = this.props;
             return (
-                <div>
+                <div className="app-view">
                     <div className="container">
                         <GraphControlPanel sampleRateMin={sampleRange[0]} sampleRateMax={sampleRateMax}
                                            sampleRate={sampleRate} duration={duration}
@@ -99,7 +99,7 @@ class AppModel extends React.Component {
                         />
                     </div>
 
-                    <div className={"main_floorplan"}>
+                    <div className="main_floorplan">
                         <FloorPlan
                             visible={visible} dataset={rawData}
                             visibleHandler={this.updateVisible}
