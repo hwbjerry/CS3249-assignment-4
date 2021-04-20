@@ -1,5 +1,5 @@
 # Custom-ui-dashboard
-![UI](/imports/img/UI.png)
+![UI](https://github.com/hwbjerry/CS3249-assignment-4/blob/main/imports/img/UI.png)
 # Getting started
 
 1. Clone this repository. 
@@ -117,5 +117,6 @@
    
 
 ## Developers
-Ho Wei Bin, Jerry ![link](https://github.com/hwbjerry)
-Michelle Toh Hui Ping ![link](https://github.com/0325961)
+Ho Wei Bin, Jerry [(github)](https://github.com/hwbjerry)
+
+Michelle Toh Hui Ping [(github)](https://github.com/0325961)
