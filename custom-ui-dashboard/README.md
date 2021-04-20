@@ -1,5 +1,7 @@
 # Custom-ui-dashboard
-![UI](https://github.com/hwbjerry/CS3249-assignment-4/blob/main/imports/img/UI.png)
+
+![UI interface](/imports/img/UI.png)
+
 # Getting started
 
 1. Clone this repository. 
