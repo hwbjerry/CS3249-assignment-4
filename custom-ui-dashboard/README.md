@@ -1,6 +1,6 @@
 # Custom-ui-dashboard
 
-![UI interface](/imports/img/UI.png)
+![UI interface](https://github.com/hwbjerry/CS3249-assignment-4/blob/d9c282175c2ddd2ed4a76daeef5f60fb121fb6ab/custom-ui-dashboard/imports/img/UI.png)
 
 # Getting started
 
