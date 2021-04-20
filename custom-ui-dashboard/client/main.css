@@ -3,20 +3,28 @@ body {
   font-family: sans-serif;
 }
 
-/*.app-view{*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*}*/
-
-.main_floorplan{
-    /*display: block;*/
-    /*margin: auto;*/
-  /*display: inline-block;*/
+.app_view{
+    /*display: flex;*/
+    align-items: center;
 }
 
+/*.main_floorplan{*/
+/*    display: block;*/
+/*    margin: auto;*/
+/*  display: inline-block;*/
+/*}*/
+
+/*.svgContainer{*/
+/*    width: 30%; !*930px*!*/
+/*    height: auto; !*600px*!*/
+/*    margin: auto;*/
+/*    display: block*/
+/*}*/
+
 .chartContainer{
-  height: 300px;
-  width: 750%;
+    height: 1000px;
+    width: 100%;
+    /*margin: auto;*/
 }
 
 .awesomeComponent {
@@ -27,4 +35,8 @@ body {
     margin: 0;
     text-align: center;
     horiz-align: center;
+}
+
+.controlPanelContainer{
+
 }

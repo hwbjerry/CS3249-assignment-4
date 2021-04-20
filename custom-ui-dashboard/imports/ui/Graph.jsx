@@ -84,6 +84,7 @@ class Graph extends React.Component {
     	const visibility = this.mapVisibility(this.props.visibility);
 		const chart_datapoints = this.mapDataset(this.props.dataset);
         const options = {
+        	height: 600,
 			theme: "light1",
 			rangeChanged: function (e) {
                 if(e.trigger === "reset") {
@@ -188,11 +189,9 @@ class Graph extends React.Component {
 
 
         return (
-            <div>
-                <CanvasJSChart className={'chartContainer'} options = {options}
-							   onRef={ref => this.chart = ref}
-				/>
-            </div>
+			<CanvasJSChart options = {options}
+						   onRef={ref => this.chart = ref}
+			/>
         );
     }
 

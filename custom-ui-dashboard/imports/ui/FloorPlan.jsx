@@ -98,8 +98,10 @@ class FloorPlan extends React.Component {
         console.log(this.mapVisibilityToDecimal(rooms_visibility));
         console.log(rooms_visibility);
 
+        const toggleValue = this.mapVisibilityToDecimal(rooms_visibility);
+        if (toggleValue === 0) return;
         //Pass back updated list in decimal
-        visibleHandler(this.mapVisibilityToDecimal(rooms_visibility));
+        visibleHandler(toggleValue);
 
         //Update 'state' in array (for responsiveness)
         this.setState({visibility: rooms_visibility});
@@ -114,9 +116,9 @@ class FloorPlan extends React.Component {
                 <svg
                 viewBox = "0 0 900 700"
                 xmlns="http://www.w3.org/2000/svg"
-                style={{width: "930px", height: "600px",  margin: "auto",display: "block"}}>
+                style={{width: "30%", height: "auto",  margin: "auto",display: "block"}}>
                     <g>
-                        <rect id="Rectangle" stroke="#000000" strokeWidth="2" x="1" y="1" width="930" height="650" fill="white"></rect>
+                        <rect id="Rectangle" stroke="#000000" strokeWidth="2" x="1" y="1" width="899" height="650" fill="white"></rect>
                         <text x="10" y="20" fill="red"> Floor Plan</text>
 
 

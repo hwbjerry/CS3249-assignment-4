@@ -12,6 +12,7 @@ import Loader from "./Loader";
 import FloorPlan from './FloorPlan'
 import Graph from "./Graph";
 import GraphControlPanel from "./GraphControlPanel";
+import {chartContainer, app_view, svgContainer, controlPanelContainer} from "../../client/main.css";
 
 
 
@@ -81,8 +82,8 @@ class AppModel extends React.Component {
             const {sampleRate, duration, sampleRateMax, rawData} = this.props;
             const {visible, dateTimeRange} = this.props;
             return (
-                <div className="app-view">
-                    <div className="container">
+                <div className="app_view">
+                    <div className="controlPanelContainer">
                         <GraphControlPanel sampleRateMin={sampleRange[0]} sampleRateMax={sampleRateMax}
                                            sampleRate={sampleRate} duration={duration}
                                            dateTimeRange={dateTimeRange} dateTimeRangeHandler={this.updateDateTimeRange}
@@ -99,7 +100,7 @@ class AppModel extends React.Component {
                         />
                     </div>
 
-                    <div className="main_floorplan">
+                    <div className="svgContainer">
                         <FloorPlan
                             visible={visible} dataset={rawData}
                             visibleHandler={this.updateVisible}

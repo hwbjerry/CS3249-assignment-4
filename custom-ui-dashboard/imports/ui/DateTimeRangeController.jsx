@@ -35,7 +35,7 @@ class DateTimeRangeController extends React.Component {
         return (
           <div>
             <div>
-                Select Range: {" "}
+                <span>Select Range:
 
                 <DateRangePicker
                     initialSettings={{
@@ -51,7 +51,7 @@ class DateTimeRangeController extends React.Component {
                     onCallback={this.handleCallBack}
                 >
                     <input type="text" className="form-control col-5"/>
-                </DateRangePicker>
+                </DateRangePicker></span>
             </div>
           </div>
         );
