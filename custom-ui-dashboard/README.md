@@ -1,8 +1,9 @@
 # Custom-ui-dashboard
+View of application
 
 ![UI interface](https://github.com/hwbjerry/CS3249-assignment-4/blob/d9c282175c2ddd2ed4a76daeef5f60fb121fb6ab/custom-ui-dashboard/imports/img/UI.png)
 
-# Getting started
+## Getting started
 
 1. Clone this repository. 
    
@@ -35,7 +36,7 @@
    meteor run
    ```
 
-# Verify if csv data has successful populated in mongodb
+## Verify if csv data has successful populated in mongodb
 1. Start the application.
    
    Run the command in terminal
@@ -77,7 +78,7 @@
    Otherwise, see documentation for [Resetting the static data database](#Resetting the static data database) use step 4. 
    Next, close all terminal windows and startup the application again.
 
-# Resetting the static data database
+## Resetting the static data database
 
 1. Start the application.
    
@@ -117,8 +118,62 @@
    
    The collection ``temperature_data`` has successful been dropped when shell reflects ``true``.
    
+## Usage
+**Sampling selection**
+
+*Interval Selection*
+
+      1. Select the date time textbox
+      2. A calendar dropdown will appear 
+         
+         a. Modify the textbox directly
+         
+         b. Modify by selecting the start datetime followed by the end datetime
+      
+   ![Interval Selection textbox](/imports/img/DateTimeRange.png)
+
+   ![Interval Selection dropdown calendar](/imports/img/DateTimeRangeDropdown.png)
+   
+
+
+*Sample Points Selection*
+
+      Drag the slider bar to adjust the nubmer of sample points to be reflected on the graph. 
+      Current samples will reflect the selected amount of samples to be shown.
+   
+   ![Room Selection Image](/imports/img/SampleRange.png)
+
+*Room Selection*
+
+      Click on the room number in the floor plan to toggle ON/OFF a room. 
+      
+      When OFF, the background of room rectangle will turn 'white'. The graph will not reflect the data points for the room.
+      
+      When ON, the background of room rectangle will turn 'blue'. The graph will reflect the data points for the room in the colour shown in the legend above the graph.
+
+   ![Room Selection Image](/imports/img/FloorPlan.png)
+
+**Graph zoom and pan**
+
+   Zoom
+
+      1. Hover over the graph. 'Cursor icon' as the cursor will be seen. If not proceed to step 2. Otherwise, skip step 2.
+      2. Hover over the magnifying glass button at the top right of the graph ('zoom' will be shown in the tooltip).
+         This shows the graph is not in zoom mode. Select the button to active 'zoom' mode.
+      3. Click on the graph(start point) drag it across to the end point of the preferred zoom range.
+   
+   ![Zoom Video](/imports/img/Zoom.mov)   
+
+   Pan
+
+      1. Hover over the graph. 'Arrowed cross icon' as the cursor will be seen. If not proceed to step 2. Otherwise, skip step 2.
+      2. Hover over the arrowed cross button at the top right of the graph ('pan' will be shown in the tooltip). 
+         This shows the graph is not in pan mode. Select the button to active 'pan' mode. 
+      3. Click and Drag on the graph to view selected interval.
+   
+   ![Pan Video](/imports/img/Pan.mov)
+      
 
 ## Developers
-Ho Wei Bin, Jerry [(github)](https://github.com/hwbjerry)
-
-Michelle Toh Hui Ping [(github)](https://github.com/0325961)
+   - Ho Wei Bin, Jerry [(github)](https://github.com/hwbjerry)
+   - Michelle Toh Hui Ping [(github)](https://github.com/0325961)

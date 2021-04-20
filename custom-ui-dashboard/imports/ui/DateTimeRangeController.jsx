@@ -49,7 +49,7 @@ class DateTimeRangeController extends React.Component {
                     }}
                     onCallback={this.handleCallBack}
                 >
-                    <input type="text" className="form-control col-2" style={{display: "inline-block"}}/>
+                    <input type="text" className="form-control col-md-3" style={{display: "inline-block"}}/>
                 </DateRangePicker>
           </div>
         );
@@ -63,7 +63,7 @@ class DateTimeRangeController extends React.Component {
         );
         let pickers = pickersRender;
         return (
-          <div >
+          <div>
             {pickers}
           </div>
         );
